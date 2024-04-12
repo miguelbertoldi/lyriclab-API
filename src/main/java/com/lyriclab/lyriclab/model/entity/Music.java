@@ -39,8 +39,6 @@ public class Music {
     @ManyToOne(cascade = CascadeType.REMOVE)
     private File file;
 
-    public Music(MusicCreationDTO dto) {}
-
     public Music(MusicCreationDTO dto, Album album) {
         BeanUtils.copyProperties(dto, this);
         this.album = album;

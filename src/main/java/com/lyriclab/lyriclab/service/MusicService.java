@@ -18,7 +18,7 @@ public class MusicService {
 
     public MusicGetDto save(MusicCreationDTO dto, Long albumId) {
         try {
-            Album album = albumService.findByIdEntity(albumId);
+            Album album = albumService.findEntityById(albumId);
             Music music = new Music(dto, album);
             return saveMusicAndConvertToDto(music);
 

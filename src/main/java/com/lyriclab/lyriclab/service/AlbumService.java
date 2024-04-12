@@ -35,7 +35,7 @@ public class AlbumService {
         return new Album(dto);
     }
 
-    public Album findByIdEntity(Long id) {
+    public Album findEntityById(Long id) {
         return albumRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
     }
@@ -54,7 +54,7 @@ public class AlbumService {
     public AlbumGetDto uploadFile(
             Long id, MultipartFile multipartFile) {
         try {
-            Album album = findByIdEntity(id);
+            Album album = findEntityById(id);
             album.setCover(fileService.save(multipartFile));
             return saveAlbumAndConvertToDto(album);
         } catch (Exception e) {

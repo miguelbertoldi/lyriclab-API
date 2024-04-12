@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -40,6 +41,21 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>
                     (HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> uploadFile(
+            @PathVariable Long id,
+            @RequestBody MultipartFile file
+    ) {
+        try {
+            return new ResponseEntity<>
+                    (userService.uploadFile(id, file),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.CONFLICT);
         }
     }
 
