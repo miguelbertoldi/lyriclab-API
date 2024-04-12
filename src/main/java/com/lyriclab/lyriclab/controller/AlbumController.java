@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,8 +35,23 @@ public class AlbumController {
                         HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(
-                    HttpStatus.CONFLICT);
+            return new ResponseEntity<>
+                    (HttpStatus.CONFLICT);
+        }
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> uploadFile(
+            @PathVariable Long id,
+            @RequestBody MultipartFile file
+    ) {
+        try {
+            return new ResponseEntity<>
+                    (albumService.uploadFile(id, file),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.CONFLICT);
         }
     }
 

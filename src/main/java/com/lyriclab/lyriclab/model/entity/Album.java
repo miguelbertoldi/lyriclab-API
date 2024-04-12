@@ -30,7 +30,7 @@ public class Album {
                 cascade = CascadeType.ALL)
     private List<Music> musics;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private File cover;
 
     public Album(MusicCreationDTO dto) {
