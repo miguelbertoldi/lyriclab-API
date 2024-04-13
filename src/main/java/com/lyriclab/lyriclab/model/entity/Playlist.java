@@ -1,7 +1,7 @@
 package com.lyriclab.lyriclab.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
+import com.lyriclab.lyriclab.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

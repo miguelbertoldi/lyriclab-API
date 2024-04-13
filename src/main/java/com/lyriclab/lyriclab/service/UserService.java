@@ -1,11 +1,8 @@
 package com.lyriclab.lyriclab.service;
 
 import com.lyriclab.lyriclab.model.dto.get.UserGetDto;
-import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
-import com.lyriclab.lyriclab.model.entity.File;
-import com.lyriclab.lyriclab.model.entity.Playlist;
-import com.lyriclab.lyriclab.model.entity.User;
+import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -50,6 +47,11 @@ public class UserService {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public User findEntityByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     private UserGetDto saveUserAndConvertToDto(User user) {

@@ -36,9 +36,6 @@ public class Music {
     private LocalDate releaseDate;
     private String lyrics;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    private File file;
-
     public Music(MusicCreationDTO dto, Album album) {
         BeanUtils.copyProperties(dto, this);
         this.album = album;

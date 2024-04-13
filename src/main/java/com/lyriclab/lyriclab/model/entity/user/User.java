@@ -1,6 +1,8 @@
-package com.lyriclab.lyriclab.model.entity;
+package com.lyriclab.lyriclab.model.entity.user;
 
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.entity.File;
+import com.lyriclab.lyriclab.model.entity.Playlist;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,10 +46,19 @@ public class User {
     @OneToOne
     private File picture;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserDetailsEntity userDetails;
+
     public User(UserCreationDTO dto) {
         BeanUtils.copyProperties(dto, this);
         this.playlists = List.of(new Playlist(this)); //save default playlist -> liked musics
+        setUserDetails();
     }
 
-
+    public void setUserDetails() {
+        this.userDetails =
+                UserDetailsEntity.builder()
+                        .user(this)
+                        .build();
+    }
 }

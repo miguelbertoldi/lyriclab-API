@@ -2,7 +2,6 @@ package com.lyriclab.lyriclab.model.dto.get;
 
 import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.entity.Playlist;
-import com.lyriclab.lyriclab.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
