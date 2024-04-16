@@ -26,10 +26,6 @@ public class UserDetailsEntity implements UserDetails {
     @OneToOne
     private User user;
 
-    public UserDetailsEntity(User user) {
-        this.user = user;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

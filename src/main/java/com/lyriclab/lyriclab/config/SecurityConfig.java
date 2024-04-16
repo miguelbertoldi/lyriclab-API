@@ -33,7 +33,7 @@ public class SecurityConfig{
             ar
                 .requestMatchers(HttpMethod.POST, "/user").permitAll()
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
         });
 
         httpSecurity.securityContext(context -> {
