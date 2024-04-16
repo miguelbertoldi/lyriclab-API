@@ -1,4 +1,4 @@
-package com.lyriclab.lyriclab;
+package com.lyriclab.lyriclab.config;
 
 import com.lyriclab.lyriclab.util.AuthFilter;
 import lombok.AllArgsConstructor;
