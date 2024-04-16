@@ -1,7 +1,7 @@
-package com.lyriclab.lyriclab.service.security;
+package com.lyriclab.lyriclab.service.user;
 
 import com.lyriclab.lyriclab.model.entity.user.User;
-import com.lyriclab.lyriclab.service.UserService;
+import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AuthenticationService
+public class UserDetailsFinderService
         implements UserDetailsService {
 
     private final UserService userService;
@@ -21,5 +21,6 @@ public class AuthenticationService
         User user = userService.findEntityByUsername(username);
         return user.getUserDetails();
     }
+
 
 }

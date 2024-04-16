@@ -1,5 +1,6 @@
-package com.lyriclab.lyriclab.model.dto.get;
+package com.lyriclab.lyriclab.model.dto.get.user;
 
+import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
 import com.lyriclab.lyriclab.model.entity.File;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;

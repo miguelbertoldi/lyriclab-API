@@ -1,28 +1,23 @@
-package com.lyriclab.lyriclab.config;
+package com.lyriclab.lyriclab;
 
+import com.lyriclab.lyriclab.util.AuthFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextRepository;
-
-import java.util.List;
 
 @Configuration
 @AllArgsConstructor
-public class SecurityConfig{
+public class SecurityConfig {
 
     private final SecurityContextRepository securityContextRepository;
+    private final AuthFilter authFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -31,9 +26,10 @@ public class SecurityConfig{
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(ar -> {
             ar
-                .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .anyRequest().permitAll();
+                .requestMatchers(HttpMethod.GET, "/auth/teste").permitAll()
+                .anyRequest().authenticated();
         });
 
         httpSecurity.securityContext(context -> {
@@ -41,14 +37,18 @@ public class SecurityConfig{
                     .securityContextRepository(securityContextRepository);
         });
 
-        httpSecurity.formLogin(Customizer.withDefaults());
-        httpSecurity.logout(Customizer.withDefaults());
+        httpSecurity.formLogin(AbstractHttpConfigurer::disable);
+        httpSecurity.logout(AbstractHttpConfigurer::disable);
 
         httpSecurity.sessionManagement(config -> {
             config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         });
 
+        httpSecurity.addFilterBefore
+                (authFilter, UsernamePasswordAuthenticationFilter.class);
+
         return httpSecurity.build();
     }
+
 
 }

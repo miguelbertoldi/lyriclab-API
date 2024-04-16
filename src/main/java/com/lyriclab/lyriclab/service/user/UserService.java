@@ -1,10 +1,9 @@
-package com.lyriclab.lyriclab.service;
+package com.lyriclab.lyriclab.service.user;
 
-import com.lyriclab.lyriclab.model.dto.get.UserGetDto;
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.UserRepository;
-import jakarta.persistence.EntityExistsException;
+import com.lyriclab.lyriclab.service.FileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,16 +15,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final FileService fileService;
-
-    public UserGetDto register(UserCreationDTO userCreationDTO) {
-        if (userRepository.existsByEmail(userCreationDTO.getEmail())) {
-            if (userRepository.existsByUsername(userCreationDTO.getUsername())) {
-                throw new EntityExistsException("Nome de usuário em uso!");
-            }
-            throw new EntityExistsException("Email em uso!");
-        }
-        return saveUserAndConvertToDto(new User(userCreationDTO));
-    }
 
     public User findEntityById(Long id) {
         return userRepository.findById(id)
@@ -54,7 +43,13 @@ public class UserService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    private UserGetDto saveUserAndConvertToDto(User user) {
+    public Boolean existsByEmailAndUsername(
+            String email, String username) {
+        return userRepository.existsByEmail(email)
+                && userRepository.existsByUsername(username);
+    }
+
+    protected UserGetDto saveUserAndConvertToDto(User user) {
         return new UserGetDto(
                 userRepository.save(user)
         );

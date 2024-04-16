@@ -1,11 +1,8 @@
 package com.lyriclab.lyriclab.config;
 
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
-import com.lyriclab.lyriclab.model.entity.user.User;
-import com.lyriclab.lyriclab.repository.UserRepository;
-import com.lyriclab.lyriclab.service.UserService;
-import com.lyriclab.lyriclab.service.security.AuthenticationService;
-import jakarta.annotation.PostConstruct;
+import com.lyriclab.lyriclab.service.user.UserDetailsFinderService;
+import com.lyriclab.lyriclab.util.CookieUtil;
+import com.lyriclab.lyriclab.util.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -22,14 +19,23 @@ import org.springframework.security.web.context.SecurityContextRepository;
 @AllArgsConstructor
 public class BeansConfig {
 
-    private final AuthenticationService authenticationService;
-    private final UserRepository userRepository;
+    private final UserDetailsFinderService authenticationService;
 
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
         return mapper;
+    }
+
+    @Bean
+    public CookieUtil cookieUtil() {
+        return new CookieUtil();
+    }
+
+    @Bean
+    public JwtUtil jwtUtil() {
+        return new JwtUtil();
     }
 
     @Bean
@@ -45,16 +51,9 @@ public class BeansConfig {
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(authenticationService);
         return new ProviderManager(provider);
-    }
-
-    @PostConstruct
-    public void init() {
-        UserCreationDTO dto = new UserCreationDTO("username", "User Name", "email", "password");
-        User user = new User(dto);
-        userRepository.save(user);
     }
 
 }

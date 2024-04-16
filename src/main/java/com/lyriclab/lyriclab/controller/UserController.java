@@ -1,7 +1,7 @@
 package com.lyriclab.lyriclab.controller;
 
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
-import com.lyriclab.lyriclab.service.UserService;
+import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class UserController {
             @RequestBody UserCreationDTO dto) {
         try {
             return new ResponseEntity<>
-                    (userService.register(dto),
+                    (
                         HttpStatus.CREATED);
 
         } catch (Exception e) {

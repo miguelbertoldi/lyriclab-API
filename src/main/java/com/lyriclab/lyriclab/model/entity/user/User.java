@@ -35,8 +35,7 @@ public class User {
 
     private String fullName;
 
-    @Column(nullable = false,
-            length = 32)
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "owner",
