@@ -23,7 +23,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(ar -> {
             ar
                 .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
@@ -32,22 +31,40 @@ public class SecurityConfig {
                 .anyRequest().authenticated();
         });
 
-        httpSecurity.securityContext(context -> {
-            context
+        createContextAndFilter(httpSecurity);
+        setDefaultAbstractSettings(httpSecurity);
+
+        return httpSecurity.build();
+    }
+
+    private void setDefaultAbstractSettings(HttpSecurity httpSecurity) {
+        try {
+            httpSecurity.csrf(AbstractHttpConfigurer::disable);
+            httpSecurity.formLogin(AbstractHttpConfigurer::disable);
+            httpSecurity.logout(AbstractHttpConfigurer::disable);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    private void createContextAndFilter(HttpSecurity httpSecurity) {
+        try {
+
+            httpSecurity.securityContext(context -> {
+                context
                     .securityContextRepository(securityContextRepository);
         });
 
-        httpSecurity.formLogin(AbstractHttpConfigurer::disable);
-        httpSecurity.logout(AbstractHttpConfigurer::disable);
-
-        httpSecurity.sessionManagement(config -> {
-            config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            httpSecurity.sessionManagement(config -> {
+                config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         });
 
-        httpSecurity.addFilterBefore
-                (authFilter, UsernamePasswordAuthenticationFilter.class);
+            httpSecurity.addFilterBefore
+                    (authFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return httpSecurity.build();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
 
