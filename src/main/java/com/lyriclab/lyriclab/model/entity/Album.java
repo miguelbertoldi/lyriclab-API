@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.model.entity;
 
+import com.lyriclab.lyriclab.model.dto.get.AlbumGetDto;
 import com.lyriclab.lyriclab.model.dto.post.AlbumCreationDTO;
 import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
 import jakarta.persistence.*;
@@ -37,6 +38,10 @@ public class Album {
         this.title = dto.getTitle();
         this.artist = dto.getArtist();
         this.musics = new ArrayList<>();
+    }
+
+    public AlbumGetDto toDto() {
+        return new AlbumGetDto(this);
     }
 
     public Album(AlbumCreationDTO dto) {

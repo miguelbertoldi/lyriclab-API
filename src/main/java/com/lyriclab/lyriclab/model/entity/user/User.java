@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.model.entity.user;
 
+import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.entity.File;
 import com.lyriclab.lyriclab.model.entity.Playlist;
@@ -59,5 +60,9 @@ public class User {
                 UserDetailsEntity.builder()
                         .user(this)
                         .build();
+    }
+
+    public UserGetDto toDto() {
+        return new UserGetDto(this);
     }
 }

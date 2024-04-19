@@ -2,7 +2,6 @@ package com.lyriclab.lyriclab.controller;
 
 import com.lyriclab.lyriclab.model.dto.get.AlbumGetDto;
 import com.lyriclab.lyriclab.model.dto.post.AlbumCreationDTO;
-import com.lyriclab.lyriclab.model.entity.Album;
 import com.lyriclab.lyriclab.service.AlbumService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,7 @@
 package com.lyriclab.lyriclab.model.entity;
 
+import com.lyriclab.lyriclab.model.dto.get.AlbumGetDto;
+import com.lyriclab.lyriclab.model.dto.get.MusicGetDto;
 import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
 import com.lyriclab.lyriclab.model.enums.Genre;
 import jakarta.persistence.*;
@@ -40,6 +42,10 @@ public class Music {
         BeanUtils.copyProperties(dto, this);
         this.album = album;
         album.addMusic(this);
+    }
+
+    public MusicGetDto toDto() {
+        return new MusicGetDto(this);
     }
 
 }

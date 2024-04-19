@@ -23,9 +23,8 @@ public class AlbumService {
 
     public AlbumGetDto save(AlbumCreationDTO dto) {
         try {
-            return saveAlbumAndConvertToDto(
-                    new Album(dto)
-            );
+            Album album = albumRepository.save(new Album(dto));
+            return album.toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -56,17 +55,13 @@ public class AlbumService {
         try {
             Album album = findEntityById(id);
             album.setCover(fileService.save(multipartFile));
-            return saveAlbumAndConvertToDto(album);
+            albumRepository.save(album);
+            return album.toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public AlbumGetDto saveAlbumAndConvertToDto(Album album) {
-        return new AlbumGetDto(
-                albumRepository.save(album)
-        );
-    }
 
 
 }

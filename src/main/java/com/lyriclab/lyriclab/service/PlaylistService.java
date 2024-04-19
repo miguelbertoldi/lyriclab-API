@@ -17,16 +17,17 @@ public class PlaylistService {
     public PlaylistGetDto save(PlaylistCreationDTO dto, User user) {
         try {
             Playlist playlist = new Playlist(dto, user);
-            return savePlaylistAndConvertToDto(playlist);
-
+            playlistRepository.save(playlist);
+            return playlist.toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    private PlaylistGetDto savePlaylistAndConvertToDto(Playlist playlist) {
-        return new PlaylistGetDto(
-                playlistRepository.save(playlist)
-        );
+    public void delete(Long id) {
+        if (!playlistRepository.existsById(id)) {
+            throw new RuntimeException("Playlist doesn't exist!");
+        }
+        playlistRepository.deleteById(id);
     }
 }

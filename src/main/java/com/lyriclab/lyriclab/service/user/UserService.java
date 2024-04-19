@@ -1,6 +1,7 @@
 package com.lyriclab.lyriclab.service.user;
 
 import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
+import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.UserRepository;
 import com.lyriclab.lyriclab.service.FileService;
@@ -15,6 +16,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final FileService fileService;
+
+    protected UserGetDto save(UserCreationDTO dto) {
+        try {
+            User user = userRepository.save(new User(dto));
+            return user.toDto();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     public User findEntityById(Long id) {
         return userRepository.findById(id)
@@ -32,7 +42,8 @@ public class UserService {
         try {
             User user = findEntityById(id);
             user.setPicture(fileService.save(file));
-            return saveUserAndConvertToDto(user);
+            userRepository.save(user);
+            return user.toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -47,12 +58,6 @@ public class UserService {
             String email, String username) {
         return userRepository.existsByEmail(email)
                 && userRepository.existsByUsername(username);
-    }
-
-    protected UserGetDto saveUserAndConvertToDto(User user) {
-        return new UserGetDto(
-                userRepository.save(user)
-        );
     }
 
 }

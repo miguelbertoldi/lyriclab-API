@@ -20,7 +20,8 @@ public class MusicService {
         try {
             Album album = albumService.findEntityById(albumId);
             Music music = new Music(dto, album);
-            return saveMusicAndConvertToDto(music);
+            musicRepository.save(music);
+            return music.toDto();
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -30,9 +31,8 @@ public class MusicService {
     public MusicGetDto save(MusicCreationDTO dto) {
         try {
             Album album = albumService.createMusicAlbum(dto);
-            return saveMusicAndConvertToDto(
-                    new Music(dto, album)
-            );
+            Music music = musicRepository.save(new Music(dto, album));
+            return music.toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -43,10 +43,5 @@ public class MusicService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    private MusicGetDto saveMusicAndConvertToDto(Music music) {
-        return new MusicGetDto(
-                musicRepository.save(music)
-        );
-    }
 
 }

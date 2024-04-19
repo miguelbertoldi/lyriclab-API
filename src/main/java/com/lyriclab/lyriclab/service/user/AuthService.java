@@ -1,6 +1,8 @@
 package com.lyriclab.lyriclab.service.user;
 
+import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserLoginDto;
+import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +20,15 @@ public class AuthService {
 
     private final AuthenticationManager manager;
     private final CookieUtil cookieUtil;
+    private final UserService userService;
+
+    public UserGetDto register(UserCreationDTO dto) {
+        if (userService.existsByEmailAndUsername(
+                dto.getUsername(), dto.getEmail())) {
+            throw new RuntimeException("Email or username already registered");
+        }
+        return userService.save(dto);
+    }
 
     public Boolean login(UserLoginDto dto,
                         HttpServletRequest req,

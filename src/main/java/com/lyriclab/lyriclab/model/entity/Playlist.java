@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.model.entity;
 
+import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
 import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import jakarta.persistence.*;
@@ -49,6 +50,10 @@ public class Playlist {
         this.owner = user;
         this.mandatory = false;
         this.musics = new ArrayList<>();
+    }
+
+    public PlaylistGetDto toDto() {
+        return new PlaylistGetDto(this);
     }
 
 }
