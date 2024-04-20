@@ -33,4 +33,11 @@ public class CookieUtil {
         return cookie;
     }
 
+    public Cookie removeContext() {
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        return cookie;
+    }
+
 }

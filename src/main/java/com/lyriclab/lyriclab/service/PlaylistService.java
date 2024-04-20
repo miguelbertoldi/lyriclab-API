@@ -5,6 +5,7 @@ import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.PlaylistRepository;
+import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Service;
 public class PlaylistService {
 
     private final PlaylistRepository playlistRepository;
+    private final UserService userService;
 
-    public PlaylistGetDto save(PlaylistCreationDTO dto, User user) {
+    public PlaylistGetDto save(PlaylistCreationDTO dto, Long userId) {
         try {
+            User user = userService.findEntityById(userId);
             Playlist playlist = new Playlist(dto, user);
             playlistRepository.save(playlist);
             return playlist.toDto();

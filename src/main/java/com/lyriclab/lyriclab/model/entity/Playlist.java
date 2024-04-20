@@ -32,7 +32,8 @@ public class Playlist {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Music> musics;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade =
+            { CascadeType.MERGE, CascadeType.REFRESH })
     private User owner;
 
     private Boolean mandatory;
@@ -47,6 +48,7 @@ public class Playlist {
 
     public Playlist(PlaylistCreationDTO dto, User user) {
         BeanUtils.copyProperties(dto, this);
+        user.addPlaylist(this);
         this.owner = user;
         this.mandatory = false;
         this.musics = new ArrayList<>();

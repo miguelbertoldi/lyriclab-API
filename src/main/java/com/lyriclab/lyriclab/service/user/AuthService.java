@@ -52,6 +52,7 @@ public class AuthService {
 
     public void logout(HttpServletRequest req,
                        HttpServletResponse res) {
+        res.addCookie(cookieUtil.removeContext());
         res.addCookie(cookieUtil.generateNullCookie());
     }
 

@@ -57,6 +57,7 @@ public class AuthFilter extends OncePerRequestFilter {
                 Cookie renovatedCookie
                         = cookieUtil.generateCookie(ud);
 
+
                 res.addCookie(renovatedCookie);
             } catch (Exception e) {
                 res.setStatus(401);

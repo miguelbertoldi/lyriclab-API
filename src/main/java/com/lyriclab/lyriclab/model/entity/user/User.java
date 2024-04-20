@@ -65,4 +65,8 @@ public class User {
     public UserGetDto toDto() {
         return new UserGetDto(this);
     }
+
+    public void addPlaylist(Playlist playlist) {
+        playlists.add(playlist);
+    }
 }

@@ -55,6 +55,7 @@ public class AuthController {
     ) {
         try {
             authService.logout(req, res);
+
             return new ResponseEntity<>
                     (HttpStatus.OK);
         } catch (Exception e) {

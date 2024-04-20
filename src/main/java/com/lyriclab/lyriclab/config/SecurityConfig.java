@@ -25,13 +25,23 @@ public class SecurityConfig {
 
         httpSecurity.authorizeHttpRequests(ar -> {
             ar
-                .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/auth/teste").permitAll()
+                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .anyRequest().authenticated();
         });
 
-        createContextAndFilter(httpSecurity);
+        httpSecurity.securityContext(context -> {
+            context
+                    .securityContextRepository(securityContextRepository);
+        });
+
+        httpSecurity.sessionManagement(config -> {
+            config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        });
+
+        httpSecurity.addFilterBefore
+                (authFilter, UsernamePasswordAuthenticationFilter.class);
+        setFilter(httpSecurity);
         setDefaultAbstractSettings(httpSecurity);
 
         return httpSecurity.build();
@@ -47,20 +57,10 @@ public class SecurityConfig {
         }
     }
 
-    private void createContextAndFilter(HttpSecurity httpSecurity) {
+    private void setFilter(HttpSecurity httpSecurity) {
         try {
 
-            httpSecurity.securityContext(context -> {
-                context
-                    .securityContextRepository(securityContextRepository);
-        });
 
-            httpSecurity.sessionManagement(config -> {
-                config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        });
-
-            httpSecurity.addFilterBefore
-                    (authFilter, UsernamePasswordAuthenticationFilter.class);
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
