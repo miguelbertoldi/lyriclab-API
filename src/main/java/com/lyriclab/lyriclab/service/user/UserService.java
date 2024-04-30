@@ -59,7 +59,7 @@ public class UserService {
     public Boolean existsByEmailAndUsername(
             String email, String username) {
         return userRepository.existsByEmail(email)
-                && userRepository.existsByUsername(username);
+                || userRepository.existsByUsername(username);
     }
 
 }
