@@ -9,6 +9,8 @@ import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class PlaylistService {
@@ -20,11 +22,17 @@ public class PlaylistService {
         try {
             User user = userService.findEntityById(userId);
             Playlist playlist = new Playlist(dto, user);
-            playlistRepository.save(playlist);
-            return playlist.toDto();
+            return playlistRepository
+                    .save(playlist).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public List<PlaylistGetDto> findAll() {
+        return playlistRepository.findAll()
+                .stream().map(PlaylistGetDto::new)
+                    .toList();
     }
 
     public void delete(Long id) {

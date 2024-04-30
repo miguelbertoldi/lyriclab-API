@@ -43,4 +43,16 @@ public class MusicController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        try {
+            return new ResponseEntity<>
+                    (musicService.findAll(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    HttpStatus.CONFLICT);
+        }
+    }
+
 }

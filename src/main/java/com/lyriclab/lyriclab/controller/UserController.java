@@ -21,7 +21,7 @@ public class UserController {
             @RequestBody UserCreationDTO dto) {
         try {
             return new ResponseEntity<>
-                    (
+                    (dto,
                         HttpStatus.CREATED);
 
         } catch (Exception e) {

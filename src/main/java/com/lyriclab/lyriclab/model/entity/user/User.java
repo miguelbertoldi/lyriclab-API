@@ -3,13 +3,17 @@ package com.lyriclab.lyriclab.model.entity.user;
 import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.entity.File;
+import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.entity.Playlist;
+import com.lyriclab.lyriclab.model.enums.PlaylistType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +35,7 @@ public class User {
     private String username;
 
     @Column(nullable = false,
+            unique = true,
             length = 48)
     private String email;
 
@@ -51,7 +56,17 @@ public class User {
 
     public User(UserCreationDTO dto) {
         BeanUtils.copyProperties(dto, this);
-        this.playlists = List.of(new Playlist(this)); //save default playlist -> liked musics
+        setPassword(dto.getPassword());
+        this.playlists = List.of(
+                new Playlist(this,
+                        "Músicas curtidas",
+                        "Aqui você pode ver todas as músicas que curtiu!",
+                        PlaylistType.LIKED),
+                new Playlist(this,
+                        "Ouviu recentemente",
+                        "Aqui você pode ver as útlimas músicas que você ouviu!",
+                        PlaylistType.RECENT)
+        ); //save default playlist -> liked musics, recently listened
         setUserDetails();
     }
 
@@ -66,7 +81,9 @@ public class User {
         return new UserGetDto(this);
     }
 
-    public void addPlaylist(Playlist playlist) {
-        playlists.add(playlist);
+    public void setPassword(String password) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
     }
+
 }

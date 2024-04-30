@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.LinkedList;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -42,8 +44,8 @@ public class UserService {
         try {
             User user = findEntityById(id);
             user.setPicture(fileService.save(file));
-            userRepository.save(user);
-            return user.toDto();
+            return userRepository
+                    .save(user).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

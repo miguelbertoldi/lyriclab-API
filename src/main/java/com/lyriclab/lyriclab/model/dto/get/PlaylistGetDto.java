@@ -2,6 +2,7 @@ package com.lyriclab.lyriclab.model.dto.get;
 
 import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.entity.Playlist;
+import com.lyriclab.lyriclab.model.enums.PlaylistType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class PlaylistGetDto {
     private String description;
     private List<MusicGetDto> musics;
     private Boolean mandatory;
+    private PlaylistType type;
 
     public PlaylistGetDto(Playlist playlist) {
         BeanUtils.copyProperties(playlist, this);

@@ -9,6 +9,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MusicService {
@@ -20,9 +22,8 @@ public class MusicService {
         try {
             Album album = albumService.findEntityById(albumId);
             Music music = new Music(dto, album);
-            musicRepository.save(music);
-            return music.toDto();
-
+            return musicRepository
+                    .save(music).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -41,6 +42,12 @@ public class MusicService {
     public Music findById(Long id) {
         return musicRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<MusicGetDto> findAll() {
+        return musicRepository.findAll()
+                .stream().map(MusicGetDto::new)
+                .toList();
     }
 
 

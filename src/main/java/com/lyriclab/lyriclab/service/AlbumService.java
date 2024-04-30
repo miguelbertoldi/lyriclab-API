@@ -55,8 +55,8 @@ public class AlbumService {
         try {
             Album album = findEntityById(id);
             album.setCover(fileService.save(multipartFile));
-            albumRepository.save(album);
-            return album.toDto();
+            return albumRepository
+                    .save(album).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -30,4 +30,16 @@ public class PlaylistController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        try {
+            return new ResponseEntity<>
+                    (playlistService.findAll(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.CONFLICT);
+        }
+    }
+
 }

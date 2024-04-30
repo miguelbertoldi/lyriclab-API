@@ -27,20 +27,11 @@ public class SecurityConfig {
             ar
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .requestMatchers(HttpMethod.GET, "/music").permitAll()
+                .requestMatchers(HttpMethod.GET, "/playlist").permitAll()
                 .anyRequest().authenticated();
         });
 
-        httpSecurity.securityContext(context -> {
-            context
-                    .securityContextRepository(securityContextRepository);
-        });
-
-        httpSecurity.sessionManagement(config -> {
-            config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        });
-
-        httpSecurity.addFilterBefore
-                (authFilter, UsernamePasswordAuthenticationFilter.class);
         setFilter(httpSecurity);
         setDefaultAbstractSettings(httpSecurity);
 
@@ -59,8 +50,17 @@ public class SecurityConfig {
 
     private void setFilter(HttpSecurity httpSecurity) {
         try {
+            httpSecurity.securityContext(context -> {
+                context
+                        .securityContextRepository(securityContextRepository);
+            });
 
+            httpSecurity.sessionManagement(config -> {
+                config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            });
 
+            httpSecurity.addFilterBefore
+                    (authFilter, UsernamePasswordAuthenticationFilter.class);
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

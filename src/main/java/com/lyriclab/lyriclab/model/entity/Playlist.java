@@ -3,6 +3,7 @@ package com.lyriclab.lyriclab.model.entity;
 import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
 import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
 import com.lyriclab.lyriclab.model.entity.user.User;
+import com.lyriclab.lyriclab.model.enums.PlaylistType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,22 +37,29 @@ public class Playlist {
             { CascadeType.MERGE, CascadeType.REFRESH })
     private User owner;
 
+    @Enumerated(EnumType.ORDINAL)
+    private PlaylistType type;
+
     private Boolean mandatory;
 
-    public Playlist(User user) {
-        this.title = "Músicas curtidas";
-        this.description = "Aqui você pode ver todas as músicas que curtiu!";
+    public Playlist( //default playlists -> liked musics, recently listened
+            User user, String title,
+            String description, PlaylistType type
+    ) {
+        this.title = title;
+        this.description = description;
         this.musics = new ArrayList<>();
         this.mandatory = true;
         this.owner = user;
+        this.type = type;
     }
 
     public Playlist(PlaylistCreationDTO dto, User user) {
         BeanUtils.copyProperties(dto, this);
-        user.addPlaylist(this);
         this.owner = user;
         this.mandatory = false;
         this.musics = new ArrayList<>();
+        this.type = PlaylistType.SIMPLE;
     }
 
     public PlaylistGetDto toDto() {

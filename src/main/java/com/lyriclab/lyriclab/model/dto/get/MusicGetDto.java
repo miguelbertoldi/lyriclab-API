@@ -20,9 +20,11 @@ public class MusicGetDto {
     private Genre genre;
     private LocalDateTime releaseDate;
     private String lyrics;
+    private String album;
 
     public MusicGetDto(Music music) {
         BeanUtils.copyProperties(music, this);
+        this.album = music.getAlbum().getTitle();
     }
 
 }
