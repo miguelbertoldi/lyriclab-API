@@ -28,7 +28,7 @@ public class AuthController {
                             HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -45,7 +45,7 @@ public class AuthController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -60,7 +60,7 @@ public class AuthController {
                     (HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 

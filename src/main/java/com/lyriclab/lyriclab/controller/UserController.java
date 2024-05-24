@@ -26,7 +26,7 @@ public class UserController {
 
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -40,7 +40,7 @@ public class UserController {
 
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.NOT_FOUND);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,7 +55,7 @@ public class UserController {
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 

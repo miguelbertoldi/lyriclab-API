@@ -35,7 +35,7 @@ public class AlbumController {
 
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -50,7 +50,7 @@ public class AlbumController {
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 

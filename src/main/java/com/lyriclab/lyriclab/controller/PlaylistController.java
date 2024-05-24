@@ -26,7 +26,7 @@ public class PlaylistController {
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -39,7 +39,7 @@ public class PlaylistController {
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
