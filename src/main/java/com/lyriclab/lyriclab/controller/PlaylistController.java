@@ -30,11 +30,12 @@ public class PlaylistController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<?> findAll() {
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> findAllByUser(
+            @PathVariable Long userId) {
         try {
             return new ResponseEntity<>
-                    (playlistService.findAll(),
+                    (playlistService.findAllByUser(userId),
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>

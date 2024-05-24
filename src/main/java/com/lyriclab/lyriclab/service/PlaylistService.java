@@ -29,11 +29,12 @@ public class PlaylistService {
         }
     }
 
-    public List<PlaylistGetDto> findAll() {
-        return playlistRepository.findAll()
+    public List<PlaylistGetDto> findAllByUser(Long id) {
+        return playlistRepository.findAllByOwner_Id(id)
                 .stream().map(PlaylistGetDto::new)
                     .toList();
     }
+
 
     public void delete(Long id) {
         if (!playlistRepository.existsById(id)) {

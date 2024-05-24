@@ -2,6 +2,7 @@ package com.lyriclab.lyriclab.service.user;
 
 import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserLoginDto;
+import com.lyriclab.lyriclab.model.dto.get.user.UserStorageDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +32,9 @@ public class AuthService {
         return userService.save(dto);
     }
 
-    public Boolean login(UserLoginDto dto,
-                        HttpServletRequest req,
-                        HttpServletResponse res) {
+    public UserStorageDto login(UserLoginDto dto,
+                      HttpServletRequest req,
+                      HttpServletResponse res) {
         try {
             UsernamePasswordAuthenticationToken token
                     = new UsernamePasswordAuthenticationToken(
@@ -43,11 +45,17 @@ public class AuthService {
 
             Cookie cookie = cookieUtil.generateCookie(ud);
             res.addCookie(cookie);
-            return true;
+            return findUser(dto);
 
         } catch (Exception e) {
             throw new RuntimeException("Exception");
         }
+    }
+
+    private UserStorageDto findUser(UserLoginDto dto) {
+        return new UserStorageDto(
+                userService.findEntityByUsername
+                    (dto.getUsername()));
     }
 
     public void logout(HttpServletRequest req,
