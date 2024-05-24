@@ -37,7 +37,7 @@ public class Playlist {
             { CascadeType.MERGE, CascadeType.REFRESH })
     private User owner;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private PlaylistType type;
 
     private Boolean mandatory;

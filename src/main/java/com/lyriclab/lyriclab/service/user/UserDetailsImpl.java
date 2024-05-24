@@ -1,7 +1,6 @@
 package com.lyriclab.lyriclab.service.user;
 
 import com.lyriclab.lyriclab.model.entity.user.User;
-import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UserDetailsFinderService
+public class UserDetailsImpl
         implements UserDetailsService {
 
     private final UserService userService;

@@ -1,6 +1,6 @@
 package com.lyriclab.lyriclab.config;
 
-import com.lyriclab.lyriclab.service.user.UserDetailsFinderService;
+import com.lyriclab.lyriclab.service.user.UserDetailsImpl;
 import com.lyriclab.lyriclab.util.CookieUtil;
 import com.lyriclab.lyriclab.util.JwtUtil;
 import lombok.AllArgsConstructor;
@@ -14,17 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @Configuration
 @AllArgsConstructor
 public class BeansConfig {
 
-    private final UserDetailsFinderService authenticationService;
+    private final UserDetailsImpl authenticationService;
 
     @Bean
     public ModelMapper modelMapper() {

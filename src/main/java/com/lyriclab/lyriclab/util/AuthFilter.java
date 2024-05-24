@@ -1,6 +1,6 @@
 package com.lyriclab.lyriclab.util;
 
-import com.lyriclab.lyriclab.service.user.UserDetailsFinderService;
+import com.lyriclab.lyriclab.service.user.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -25,7 +25,7 @@ public class AuthFilter extends OncePerRequestFilter {
     private SecurityContextRepository contextRespository;
     private final CookieUtil cookieUtil;
     private final JwtUtil jwtUtil;
-    private final UserDetailsFinderService userDetailsService;
+    private final UserDetailsImpl userDetailsService;
 
     @Override
     public void doFilterInternal(

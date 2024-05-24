@@ -32,7 +32,7 @@ public class Music {
             { CascadeType.PERSIST, CascadeType.MERGE })
     private Album album;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Genre genre;
 
     private LocalDate releaseDate;
