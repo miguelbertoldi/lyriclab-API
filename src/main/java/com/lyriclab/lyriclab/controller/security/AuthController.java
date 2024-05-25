@@ -51,11 +51,10 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-            HttpServletRequest req,
             HttpServletResponse res
     ) {
         try {
-            authService.logout(req, res);
+            authService.logout(res);
             return new ResponseEntity<>
                     (HttpStatus.OK);
         } catch (Exception e) {

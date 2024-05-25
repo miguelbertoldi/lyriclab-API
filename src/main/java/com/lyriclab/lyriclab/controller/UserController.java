@@ -59,4 +59,12 @@ public class UserController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<Boolean> existsByEmail(
+            @RequestBody String email) {
+        return new ResponseEntity<>(
+                userService.existsByEmail(email),
+                    HttpStatus.OK);
+    }
+
 }

@@ -7,6 +7,7 @@ import com.lyriclab.lyriclab.repository.UserRepository;
 import com.lyriclab.lyriclab.service.FileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,4 +63,7 @@ public class UserService {
                 || userRepository.existsByUsername(username);
     }
 
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
