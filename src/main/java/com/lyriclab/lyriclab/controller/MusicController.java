@@ -29,7 +29,7 @@ public class MusicController {
         }
     }
 
-    @GetMapping("/like/{musicId}")
+    @PatchMapping("/like/{musicId}")
     public ResponseEntity<?> likeMusicHandler(
             @PathVariable Long musicId) {
         try {

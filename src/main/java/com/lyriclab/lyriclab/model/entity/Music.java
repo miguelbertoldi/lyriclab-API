@@ -5,10 +5,7 @@ import com.lyriclab.lyriclab.model.dto.get.music.MusicPlayDto;
 import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
 import com.lyriclab.lyriclab.model.enums.Genre;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
@@ -18,10 +15,12 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Music {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
     private String title;
 

@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -90,6 +91,7 @@ public class MusicService {
             playlist.getMusics().remove(music);
         }
 
-        userService.save(user);
+        playlistService.save(playlist);
     }
+
 }
