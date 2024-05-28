@@ -42,4 +42,8 @@ public class PlaylistService {
         }
         playlistRepository.deleteById(id);
     }
+
+    public void save(Playlist playlist) {
+        playlistRepository.save(playlist);
+    }
 }

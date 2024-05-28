@@ -43,7 +43,6 @@ public class AuthController {
                     (authService.login(dto, req, res),
                             HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }

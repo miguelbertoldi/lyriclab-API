@@ -57,6 +57,10 @@ public class UserService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
     public Boolean existsByEmailAndUsername(
             String email, String username) {
         return userRepository.existsByEmail(email)

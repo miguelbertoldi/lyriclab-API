@@ -1,17 +1,17 @@
 package com.lyriclab.lyriclab.model.entity;
 
-import com.lyriclab.lyriclab.model.dto.get.AlbumGetDto;
-import com.lyriclab.lyriclab.model.dto.get.MusicGetDto;
+import com.lyriclab.lyriclab.model.dto.get.music.MusicGetDto;
+import com.lyriclab.lyriclab.model.dto.get.music.MusicPlayDto;
 import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
 import com.lyriclab.lyriclab.model.enums.Genre;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_music")
@@ -30,6 +30,7 @@ public class Music {
 
     @ManyToOne(cascade =
             { CascadeType.PERSIST, CascadeType.MERGE })
+    @ToString.Exclude
     private Album album;
 
     @Enumerated(EnumType.STRING)
@@ -46,6 +47,10 @@ public class Music {
 
     public MusicGetDto toDto() {
         return new MusicGetDto(this);
+    }
+
+    public MusicPlayDto toPlayDto() {
+        return new MusicPlayDto(this);
     }
 
 }

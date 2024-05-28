@@ -1,6 +1,6 @@
 package com.lyriclab.lyriclab.config;
 
-import com.lyriclab.lyriclab.util.AuthFilter;
+import com.lyriclab.lyriclab.filter.AuthFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

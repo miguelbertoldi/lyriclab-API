@@ -30,11 +30,10 @@ public class Playlist {
     @Column(length = 150)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Music> musics;
 
-    @ManyToOne(cascade =
-            { CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne
     private User owner;
 
     @Enumerated(EnumType.STRING)

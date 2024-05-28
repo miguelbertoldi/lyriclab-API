@@ -42,13 +42,17 @@ public class User {
     private String fullName;
 
     @Column(nullable = false)
+    @ToString.Exclude
     private String password;
 
     @OneToMany(mappedBy = "owner",
-            cascade = CascadeType.PERSIST)
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.EAGER)
+    @ToString.Exclude
     private List<Playlist> playlists;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
     private File picture;
 
     @OneToOne(cascade = CascadeType.ALL)
