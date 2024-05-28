@@ -4,10 +4,7 @@ import com.lyriclab.lyriclab.model.dto.get.AlbumGetDto;
 import com.lyriclab.lyriclab.model.dto.post.AlbumCreationDTO;
 import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -18,10 +15,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Album {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String title;
