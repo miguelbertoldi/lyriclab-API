@@ -59,6 +59,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/logged/musics")
+    public ResponseEntity<?> findLikedLoggedMusics() {
+        try {
+            return new ResponseEntity<>
+                    (userService.findLikedLoggedMusics(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping
     public ResponseEntity<Boolean> existsByEmail(
             @RequestBody String email) {
