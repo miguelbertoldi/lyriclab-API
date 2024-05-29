@@ -27,11 +27,16 @@ public class UserService {
 
     protected UserGetDto save(UserCreationDTO dto) {
         try {
-            User user = userRepository.save(new User(dto));
-            return user.toDto();
+            User user = new User(dto);
+            saveDefaultImage(user);
+            return userRepository.save(user).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    private void saveDefaultImage(User user) {
+
     }
 
     public User findEntityById(Long id) {

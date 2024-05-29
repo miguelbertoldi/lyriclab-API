@@ -94,4 +94,11 @@ public class MusicService {
         playlistService.save(playlist);
     }
 
+    public void delete(Music music) {
+        if (!musicRepository.existsById(music.getId())) {
+            throw new RuntimeException("Doesn't exists!");
+        }
+        musicRepository.delete(music);
+    }
+
 }

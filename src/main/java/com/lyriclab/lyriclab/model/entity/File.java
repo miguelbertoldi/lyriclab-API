@@ -34,4 +34,10 @@ public class File {
         this.name = file.getOriginalFilename();
         this.data = file.getBytes();
     }
+
+    public File(byte[] data) {
+        this.type = "image/png";
+        this.name = "default_album";
+        this.data = data;
+    }
 }

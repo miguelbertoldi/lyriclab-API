@@ -27,7 +27,8 @@ public class Album {
     private String artist;
 
     @OneToMany(mappedBy = "album",
-                cascade = CascadeType.ALL)
+                cascade = CascadeType.ALL,
+                orphanRemoval = true)
     private List<Music> musics;
 
     @OneToOne(cascade = CascadeType.REMOVE)

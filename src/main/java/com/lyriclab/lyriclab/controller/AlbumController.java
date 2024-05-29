@@ -54,5 +54,19 @@ public class AlbumController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> uploadFile(
+            @PathVariable Long id
+    ) {
+        try {
+            albumService.delete(id);
+            return new ResponseEntity<>
+                    (HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
