@@ -35,6 +35,10 @@ public class Music {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
+    @OneToOne(cascade =
+            { CascadeType.PERSIST, CascadeType.REMOVE })
+    private File file;
+
     private LocalDate releaseDate;
     private String lyrics;
 

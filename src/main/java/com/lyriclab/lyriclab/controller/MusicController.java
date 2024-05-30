@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/music")
@@ -76,6 +77,20 @@ public class MusicController {
         try {
             return new ResponseEntity<>
                     (musicService.findRecent(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/{id}/file")
+    public ResponseEntity<?> uploadMusicFile(
+            @RequestParam MultipartFile file,
+            @PathVariable Long id) {
+        try {
+            return new ResponseEntity<>
+                    (musicService.uploadFile(file, id),
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(

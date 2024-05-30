@@ -59,6 +59,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/logged")
+    public ResponseEntity<?> findLoggedUser() {
+        try {
+            return new ResponseEntity<>
+                    (userService.findLoggedUser(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/logged/musics")
     public ResponseEntity<?> findLikedLoggedMusics() {
         try {

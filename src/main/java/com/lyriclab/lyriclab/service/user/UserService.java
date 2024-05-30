@@ -2,6 +2,7 @@ package com.lyriclab.lyriclab.service.user;
 
 import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
+import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.UserRepository;
@@ -9,12 +10,8 @@ import com.lyriclab.lyriclab.service.FileService;
 import com.lyriclab.lyriclab.util.AuthUserUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -36,7 +33,9 @@ public class UserService {
     }
 
     private void saveDefaultImage(User user) {
-
+        user.setPicture(
+                fileService.loadImageAsFile("src/main/resources/images/user-default.jpg")
+        );
     }
 
     public User findEntityById(Long id) {
@@ -85,5 +84,9 @@ public class UserService {
         return authUtil.getAuthenticatedUser()
                 .toDto().getPlaylists()
                 .get(0);
+    }
+
+    public UserBasicInfoDto findLoggedUser() {
+        return authUtil.getAuthenticatedUser().getBasicInfo();
     }
 }

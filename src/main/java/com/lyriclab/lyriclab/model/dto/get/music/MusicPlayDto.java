@@ -20,9 +20,11 @@ public class MusicPlayDto {
     private String artist;
     private String album;
     private File file;
+    private File cover;
 
     public MusicPlayDto(Music music) {
         BeanUtils.copyProperties(music, this);
+        this.cover = music.getAlbum().getCover();
     }
 
 }

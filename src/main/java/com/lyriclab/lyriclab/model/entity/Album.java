@@ -31,7 +31,8 @@ public class Album {
                 orphanRemoval = true)
     private List<Music> musics;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
     private File cover;
 
     public Album(MusicCreationDTO dto) {

@@ -13,6 +13,7 @@ import com.lyriclab.lyriclab.util.AuthUserUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +25,7 @@ public class MusicService {
     private final MusicRepository musicRepository;
     private final AlbumService albumService;
     private final PlaylistService playlistService;
-    private final UserService userService;
+    private final FileService fileService;
 
     private final AuthUserUtil authUtil;
 
@@ -101,4 +102,14 @@ public class MusicService {
         musicRepository.delete(music);
     }
 
+    public MusicGetDto uploadFile(MultipartFile file, Long id) {
+        try {
+            Music music = findById(id);
+            music.setFile(fileService.save(file));
+
+            return musicRepository.save(music).toDto();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
