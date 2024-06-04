@@ -89,4 +89,9 @@ public class UserService {
     public UserBasicInfoDto findLoggedUser() {
         return authUtil.getAuthenticatedUser().getBasicInfo();
     }
+
+    public UserGetDto findLoggedUserComplete() {
+        return authUtil.getAuthenticatedUser().toDto();
+    }
+
 }

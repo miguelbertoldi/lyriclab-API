@@ -71,6 +71,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/logged/complete")
+    public ResponseEntity<?> findLoggedUserComplete() {
+        try {
+            return new ResponseEntity<>
+                    (userService.findLoggedUserComplete(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/logged/musics")
     public ResponseEntity<?> findLikedLoggedMusics() {
         try {
