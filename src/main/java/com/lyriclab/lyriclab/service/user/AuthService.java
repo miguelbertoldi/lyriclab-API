@@ -58,8 +58,7 @@ public class AuthService {
                     (dto.getUsername()));
     }
 
-    public void logout(HttpServletRequest req,
-                       HttpServletResponse res) {
+    public void logout(HttpServletResponse res) {
         res.addCookie(cookieUtil.removeContext());
         res.addCookie(cookieUtil.generateNullCookie());
     }

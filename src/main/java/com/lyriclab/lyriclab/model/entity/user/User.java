@@ -1,9 +1,9 @@
 package com.lyriclab.lyriclab.model.entity.user;
 
 import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
+import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.entity.File;
-import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.enums.PlaylistType;
 import jakarta.persistence.*;
@@ -15,7 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,13 +41,17 @@ public class User {
     private String fullName;
 
     @Column(nullable = false)
+    @ToString.Exclude
     private String password;
 
     @OneToMany(mappedBy = "owner",
-            cascade = CascadeType.PERSIST)
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.EAGER)
+    @ToString.Exclude
     private List<Playlist> playlists;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
     private File picture;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -79,6 +82,10 @@ public class User {
 
     public UserGetDto toDto() {
         return new UserGetDto(this);
+    }
+
+    public UserBasicInfoDto getBasicInfo() {
+        return new UserBasicInfoDto(this);
     }
 
     public void setPassword(String password) {

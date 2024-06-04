@@ -6,6 +6,7 @@ import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.PlaylistRepository;
 import com.lyriclab.lyriclab.service.user.UserService;
+import com.lyriclab.lyriclab.util.AuthUserUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,11 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final UserService userService;
 
-    public PlaylistGetDto save(PlaylistCreationDTO dto, Long userId) {
+    private final AuthUserUtil authUtil;
+
+    public PlaylistGetDto save(PlaylistCreationDTO dto) {
         try {
-            User user = userService.findEntityById(userId);
+            User user = authUtil.getAuthenticatedUser();
             Playlist playlist = new Playlist(dto, user);
             return playlistRepository
                     .save(playlist).toDto();
@@ -29,10 +32,11 @@ public class PlaylistService {
         }
     }
 
-    public List<PlaylistGetDto> findAllByUser(Long id) {
-        return playlistRepository.findAllByOwner_Id(id)
-                .stream().map(PlaylistGetDto::new)
-                    .toList();
+    public List<PlaylistGetDto> findAllByUser() {
+        User user = authUtil.getAuthenticatedUser();
+        return user.toDto().getPlaylists()
+                .stream().filter(p -> !p.getMandatory())
+                .toList();
     }
 
 
@@ -41,5 +45,9 @@ public class PlaylistService {
             throw new RuntimeException("Playlist doesn't exist!");
         }
         playlistRepository.deleteById(id);
+    }
+
+    public void save(Playlist playlist) {
+        playlistRepository.save(playlist);
     }
 }

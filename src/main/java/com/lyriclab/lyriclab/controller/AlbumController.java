@@ -35,7 +35,7 @@ public class AlbumController {
 
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -50,7 +50,21 @@ public class AlbumController {
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> uploadFile(
+            @PathVariable Long id
+    ) {
+        try {
+            albumService.delete(id);
+            return new ResponseEntity<>
+                    (HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 

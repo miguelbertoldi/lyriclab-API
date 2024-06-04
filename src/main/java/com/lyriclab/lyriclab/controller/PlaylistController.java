@@ -16,30 +16,28 @@ public class PlaylistController {
 
     private final PlaylistService playlistService;
 
-    @PostMapping("/{userId}")
+    @PostMapping
     public ResponseEntity<?> save(
-            @RequestBody PlaylistCreationDTO dto,
-            @PathVariable Long userId) {
+            @RequestBody PlaylistCreationDTO dto) {
         try {
             return new ResponseEntity<>
-                    (playlistService.save(dto, userId),
+                    (playlistService.save(dto),
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> findAllByUser(
-            @PathVariable Long userId) {
+    @GetMapping("/user")
+    public ResponseEntity<?> findAllByUser() {
         try {
             return new ResponseEntity<>
-                    (playlistService.findAllByUser(userId),
+                    (playlistService.findAllByUser(),
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 

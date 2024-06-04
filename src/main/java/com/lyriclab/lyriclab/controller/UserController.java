@@ -26,7 +26,7 @@ public class UserController {
 
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -40,7 +40,7 @@ public class UserController {
 
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.NOT_FOUND);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,8 +55,40 @@ public class UserController {
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/logged")
+    public ResponseEntity<?> findLoggedUser() {
+        try {
+            return new ResponseEntity<>
+                    (userService.findLoggedUser(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/logged/musics")
+    public ResponseEntity<?> findLikedLoggedMusics() {
+        try {
+            return new ResponseEntity<>
+                    (userService.findLikedLoggedMusics(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<Boolean> existsByEmail(
+            @RequestBody String email) {
+        return new ResponseEntity<>(
+                userService.existsByEmail(email),
+                    HttpStatus.OK);
     }
 
 }

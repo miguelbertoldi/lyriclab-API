@@ -23,15 +23,26 @@ public class AlbumService {
 
     public AlbumGetDto save(AlbumCreationDTO dto) {
         try {
-            Album album = albumRepository.save(new Album(dto));
-            return album.toDto();
+            Album album = new Album(dto);
+            saveDefaultCover(album);
+            return albumRepository.save(album).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     public Album createMusicAlbum(MusicCreationDTO dto) {
-        return new Album(dto);
+        Album album = new Album(dto);
+        saveDefaultCover(album);
+        return album;
+    }
+
+    private void saveDefaultCover(Album album) {
+        album.setCover(
+                fileService.loadImageAsFile(
+                        "src/main/resources/images/default-playlist.png"
+                )
+        );
     }
 
     public Album findEntityById(Long id) {
@@ -55,13 +66,18 @@ public class AlbumService {
         try {
             Album album = findEntityById(id);
             album.setCover(fileService.save(multipartFile));
-            return albumRepository
-                    .save(album).toDto();
+
+            return albumRepository.save(album).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
 
-
+    public void delete(Long id) {
+        if (!albumRepository.existsById(id)) {
+            throw new RuntimeException("Album doesn't exists");
+        }
+        albumRepository.deleteById(id);
+    }
 }

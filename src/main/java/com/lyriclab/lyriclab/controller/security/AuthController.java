@@ -28,7 +28,7 @@ public class AuthController {
                             HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -43,24 +43,22 @@ public class AuthController {
                     (authService.login(dto, req, res),
                             HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-            HttpServletRequest req,
             HttpServletResponse res
     ) {
         try {
-            authService.logout(req, res);
+            authService.logout(res);
             return new ResponseEntity<>
                     (HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 

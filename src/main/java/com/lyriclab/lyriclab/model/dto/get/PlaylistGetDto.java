@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.model.dto.get;
 
+import com.lyriclab.lyriclab.model.dto.get.music.MusicGetDto;
 import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.enums.PlaylistType;

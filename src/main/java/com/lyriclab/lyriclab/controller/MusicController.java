@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/music")
@@ -14,6 +15,34 @@ import org.springframework.web.bind.annotation.*;
 public class MusicController {
 
     private final MusicService musicService;
+
+    @GetMapping("/play/{musicId}")
+    public ResponseEntity<?> playMusic(
+            @PathVariable Long musicId) {
+        try {
+            return new ResponseEntity<>
+                    (musicService.playMusic(musicId),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/like/{musicId}")
+    public ResponseEntity<?> likeMusicHandler(
+            @PathVariable Long musicId) {
+        try {
+            musicService.likeMusicHandler(musicId);
+            return new ResponseEntity<>
+                    (HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping("/{albumId}")
     public ResponseEntity<?> save(
@@ -25,7 +54,7 @@ public class MusicController {
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -39,19 +68,33 @@ public class MusicController {
 
         } catch (Exception e) {
             return new ResponseEntity<>
-                    (HttpStatus.CONFLICT);
+                    (HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping
-    public ResponseEntity<?> findAll() {
+    @GetMapping("/recent")
+    public ResponseEntity<?> findRecent() {
         try {
             return new ResponseEntity<>
-                    (musicService.findAll(),
+                    (musicService.findRecent(),
                             HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    HttpStatus.CONFLICT);
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/{id}/file")
+    public ResponseEntity<?> uploadMusicFile(
+            @RequestParam MultipartFile file,
+            @PathVariable Long id) {
+        try {
+            return new ResponseEntity<>
+                    (musicService.uploadFile(file, id),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
