@@ -48,7 +48,7 @@ public class AuthService {
             return findUser(dto);
 
         } catch (Exception e) {
-            throw new RuntimeException("Exception");
+            throw new RuntimeException(e);
         }
     }
 
