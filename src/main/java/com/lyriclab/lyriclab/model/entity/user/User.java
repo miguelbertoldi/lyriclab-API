@@ -39,6 +39,7 @@ public class User {
     private String email;
 
     private String fullName;
+    private String description;
 
     @Column(nullable = false)
     @ToString.Exclude
