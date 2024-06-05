@@ -80,6 +80,14 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    public void editPassword(String email, String password){
+        User user = userRepository.findByEmail(email).get();
+        user.setPassword(password);
+
+        userRepository.save(user);
+        System.out.println(user.getPassword());
+    }
+
     public PlaylistGetDto findLikedLoggedMusics() {
         return authUtil.getAuthenticatedUser()
                 .toDto().getPlaylists()

@@ -70,7 +70,7 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private boolean isPublicRoute(HttpServletRequest req) {
-        return req.getRequestURI().contains("login");
+        return req.getRequestURI().contains("login") || req.getRequestURI().contains("user/email");
     }
 
 }
