@@ -1,9 +1,11 @@
 package com.lyriclab.lyriclab.service.user;
 
 import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
+import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.entity.File;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.UserRepository;
 import com.lyriclab.lyriclab.service.FileService;
@@ -92,6 +94,13 @@ public class UserService {
 
     public UserGetDto findLoggedUserComplete() {
         return authUtil.getAuthenticatedUser().toDto();
+    }
+
+    public void editUser(UserEditDto userEditDto){
+        User user = userRepository.findById(userEditDto.getId()).get();
+        user.setEmail(userEditDto.getEmail());
+        user.setUsername(userEditDto.getUsername());
+        save(user);
     }
 
 }

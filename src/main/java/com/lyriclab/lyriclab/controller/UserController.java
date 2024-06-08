@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.controller;
 
+import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
@@ -54,6 +55,7 @@ public class UserController {
                     (userService.uploadFile(id, file),
                             HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
@@ -101,6 +103,11 @@ public class UserController {
         return new ResponseEntity<>(
                 userService.existsByEmail(email),
                     HttpStatus.OK);
+    }
+
+    @PutMapping
+    public void editUser(@RequestBody UserEditDto userEditDto){
+        userService.editUser(userEditDto);
     }
 
 }

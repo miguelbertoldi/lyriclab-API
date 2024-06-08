@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/music").permitAll()
                 .requestMatchers(HttpMethod.GET, "/playlist").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/user").permitAll()
                 .anyRequest().authenticated();
         });
 
