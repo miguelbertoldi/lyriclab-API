@@ -1,6 +1,8 @@
 package com.lyriclab.lyriclab.controller;
 
+import com.lyriclab.lyriclab.model.dto.get.user.UserEmailDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,17 @@ public class UserController {
                         HttpStatus.CREATED);
 
         } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<HttpStatus> editPassword(@RequestBody String email, @RequestBody String password) {
+        try {
+            userService.editPassword(email, password);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
@@ -95,12 +108,8 @@ public class UserController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<Boolean> existsByEmail(
-            @RequestBody String email) {
-        return new ResponseEntity<>(
-                userService.existsByEmail(email),
-                    HttpStatus.OK);
-    }
-
+   @PostMapping("/email")
+    public ResponseEntity<Boolean> existsByEmail(@RequestBody String userEmailDTO){
+        return new ResponseEntity<>(userService.existsByEmail(userEmailDTO),HttpStatus.OK);
+   }
 }
