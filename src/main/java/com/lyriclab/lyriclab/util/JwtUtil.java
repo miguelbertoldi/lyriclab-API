@@ -15,7 +15,7 @@ public class JwtUtil {
         return JWT.create()
                 .withIssuer("LyricLab")
                 .withIssuedAt(new Date())
-                    .withExpiresAt(new Date(new Date().getTime() + 300000))
+                    .withExpiresAt(new Date(new Date().getTime() + 7200000))
                 .withSubject(ud.getUsername())
                 .sign(algorithm);
     }

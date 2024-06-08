@@ -15,7 +15,7 @@ public class CookieUtil {
         String token = new JwtUtil().generateToken(ud);
         Cookie cookie = new Cookie("JWT", token);
         cookie.setPath("/");
-        cookie.setMaxAge(300);
+        cookie.setMaxAge(720);
         return cookie;
     }
 
