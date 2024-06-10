@@ -1,7 +1,6 @@
 package com.lyriclab.lyriclab.controller;
 
-import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
-import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
+import com.lyriclab.lyriclab.model.dto.post.PlaylistPostDTO;
 import com.lyriclab.lyriclab.service.PlaylistService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ public class PlaylistController {
 
     @PostMapping
     public ResponseEntity<?> save(
-            @RequestBody PlaylistCreationDTO dto) {
+            @RequestBody PlaylistPostDTO dto) {
         try {
             return new ResponseEntity<>
                     (playlistService.save(dto),

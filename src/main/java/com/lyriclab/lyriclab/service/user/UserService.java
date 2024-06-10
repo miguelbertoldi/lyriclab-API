@@ -1,10 +1,14 @@
 package com.lyriclab.lyriclab.service.user;
 
-import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
-import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
+import com.lyriclab.lyriclab.model.dto.get.PlaylistResponseDto;
+import com.lyriclab.lyriclab.model.dto.get.user.UserResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
+import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
+import com.lyriclab.lyriclab.model.entity.user.Artist;
 import com.lyriclab.lyriclab.model.entity.user.User;
+import com.lyriclab.lyriclab.model.enums.UserKind;
+import com.lyriclab.lyriclab.repository.ArtistRepository;
 import com.lyriclab.lyriclab.repository.UserRepository;
 import com.lyriclab.lyriclab.service.FileService;
 import com.lyriclab.lyriclab.util.AuthUserUtil;
@@ -13,16 +17,19 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ArtistRepository artistRepository;
     private final FileService fileService;
 
     private final AuthUserUtil authUtil;
 
-    protected UserGetDto save(UserCreationDTO dto) {
+    protected UserResponseDto save(UserPostDTO dto) {
         try {
             User user = new User(dto);
             saveDefaultImage(user);
@@ -43,13 +50,13 @@ public class UserService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public UserGetDto findById(Long id) {
-        return new UserGetDto(
+    public UserResponseDto findById(Long id) {
+        return new UserResponseDto(
                 findEntityById(id)
         );
     }
 
-    public UserGetDto uploadFile(
+    public UserResponseDto uploadFile(
             Long id, MultipartFile file) {
         try {
             User user = findEntityById(id);
@@ -85,10 +92,9 @@ public class UserService {
         user.setPassword(password);
 
         userRepository.save(user);
-        System.out.println(user.getPassword());
     }
 
-    public PlaylistGetDto findLikedLoggedMusics() {
+    public PlaylistResponseDto findLikedLoggedMusics() {
         return authUtil.getAuthenticatedUser()
                 .toDto().getPlaylists()
                 .get(0);
@@ -98,8 +104,24 @@ public class UserService {
         return authUtil.getAuthenticatedUser().getBasicInfo();
     }
 
-    public UserGetDto findLoggedUserComplete() {
+    public UserResponseDto findLoggedUserComplete() {
         return authUtil.getAuthenticatedUser().toDto();
     }
 
+    public void makeUserAnArtist(ArtistPostDTO dto) {
+        // authUtil.getAuthenticatedUser().setUserKind(UserKind.ARTIST);
+        // userRepository.save(authUtil.getAuthenticatedUser());
+        artistRepository.save(new Artist(authUtil.getAuthenticatedUser(), dto));
+    }
+
+    public User findArtist(Long id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isPresent()
+                && user.get().getUserKind() == UserKind.ARTIST) {
+            return user.get();
+        }
+
+        throw new RuntimeException("User doesn't exist or isn't an artist!");
+    }
 }

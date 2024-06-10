@@ -1,7 +1,7 @@
 package com.lyriclab.lyriclab.service;
 
-import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
-import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
+import com.lyriclab.lyriclab.model.dto.get.PlaylistResponseDto;
+import com.lyriclab.lyriclab.model.dto.post.PlaylistPostDTO;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.PlaylistRepository;
@@ -21,7 +21,7 @@ public class PlaylistService {
 
     private final AuthUserUtil authUtil;
 
-    public PlaylistGetDto save(PlaylistCreationDTO dto) {
+    public PlaylistResponseDto save(PlaylistPostDTO dto) {
         try {
             User user = authUtil.getAuthenticatedUser();
             Playlist playlist = new Playlist(dto, user);
@@ -32,7 +32,7 @@ public class PlaylistService {
         }
     }
 
-    public List<PlaylistGetDto> findAllByUser() {
+    public List<PlaylistResponseDto> findAllByUser() {
         User user = authUtil.getAuthenticatedUser();
         return user.toDto().getPlaylists()
                 .stream().filter(p -> !p.getMandatory())

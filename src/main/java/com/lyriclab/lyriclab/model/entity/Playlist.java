@@ -1,9 +1,10 @@
 package com.lyriclab.lyriclab.model.entity;
 
-import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
-import com.lyriclab.lyriclab.model.dto.post.PlaylistCreationDTO;
+import com.lyriclab.lyriclab.model.dto.get.PlaylistResponseDto;
+import com.lyriclab.lyriclab.model.dto.post.PlaylistPostDTO;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.model.enums.PlaylistType;
+import com.lyriclab.lyriclab.model.interfaces.IResponseConversor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Playlist {
+public class Playlist implements IResponseConversor<PlaylistResponseDto> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +57,7 @@ public class Playlist {
         this.type = type;
     }
 
-    public Playlist(PlaylistCreationDTO dto, User user) {
+    public Playlist(PlaylistPostDTO dto, User user) {
         BeanUtils.copyProperties(dto, this);
         this.owner = user;
         this.mandatory = false;
@@ -64,8 +65,8 @@ public class Playlist {
         this.type = PlaylistType.SIMPLE;
     }
 
-    public PlaylistGetDto toDto() {
-        return new PlaylistGetDto(this);
+    public PlaylistResponseDto toDto() {
+        return new PlaylistResponseDto(this);
     }
 
 }

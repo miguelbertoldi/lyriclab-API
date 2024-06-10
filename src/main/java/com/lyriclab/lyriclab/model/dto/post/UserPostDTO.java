@@ -8,7 +8,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserCreationDTO {
+public class UserPostDTO {
 
     @NonNull
     private String username;

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class MusicGetDto {
+public class MusicResponseDto {
 
     private Long id;
     private String title;
@@ -24,7 +24,7 @@ public class MusicGetDto {
     private String album;
     private File cover;
 
-    public MusicGetDto(Music music) {
+    public MusicResponseDto(Music music) {
         BeanUtils.copyProperties(music, this);
         this.album = music.getAlbum().getTitle();
         this.cover = music.getAlbum().getCover();

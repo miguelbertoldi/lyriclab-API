@@ -9,12 +9,12 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @Data
-public class MusicCreationDTO {
+public class MusicPostDTO {
 
     @NonNull
     private String title;
     @NonNull
-    private String artist;
+    private Long artistId;
     @NonNull
     private Genre genre;
     private LocalDate releaseDate;

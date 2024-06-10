@@ -1,8 +1,11 @@
 package com.lyriclab.lyriclab.model.entity;
 
-import com.lyriclab.lyriclab.model.dto.get.AlbumGetDto;
-import com.lyriclab.lyriclab.model.dto.post.AlbumCreationDTO;
-import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
+import com.lyriclab.lyriclab.model.dto.get.AlbumResponseDto;
+import com.lyriclab.lyriclab.model.dto.post.AlbumPostDTO;
+import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
+import com.lyriclab.lyriclab.model.entity.user.Artist;
+import com.lyriclab.lyriclab.model.entity.user.User;
+import com.lyriclab.lyriclab.model.interfaces.IResponseConversor;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Album {
+public class Album implements IResponseConversor<AlbumResponseDto> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +27,10 @@ public class Album {
     private Long id;
 
     private String title;
-    private String artist;
+
+    @ManyToOne(cascade =
+            { CascadeType.PERSIST, CascadeType.MERGE })
+    private User artist;
 
     @OneToMany(mappedBy = "album",
                 cascade = CascadeType.ALL,
@@ -35,18 +41,19 @@ public class Album {
             orphanRemoval = true)
     private File cover;
 
-    public Album(MusicCreationDTO dto) {
+    public Album(MusicPostDTO dto, User artist) {
         this.title = dto.getTitle();
-        this.artist = dto.getArtist();
+        this.artist = artist;
         this.musics = new ArrayList<>();
     }
 
-    public AlbumGetDto toDto() {
-        return new AlbumGetDto(this);
+    public AlbumResponseDto toDto() {
+        return new AlbumResponseDto(this);
     }
 
-    public Album(AlbumCreationDTO dto) {
+    public Album(AlbumPostDTO dto, User artist) {
         BeanUtils.copyProperties(dto, this);
+        this.artist = artist;
         this.musics = new ArrayList<>();
     }
 

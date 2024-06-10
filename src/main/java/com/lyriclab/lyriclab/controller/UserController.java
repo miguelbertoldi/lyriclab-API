@@ -1,8 +1,7 @@
 package com.lyriclab.lyriclab.controller;
 
-import com.lyriclab.lyriclab.model.dto.get.user.UserEmailDTO;
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
-import com.lyriclab.lyriclab.model.entity.user.User;
+import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
+import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
-            @RequestBody UserCreationDTO dto) {
+            @RequestBody UserPostDTO dto) {
         try {
             return new ResponseEntity<>
                     (dto,
@@ -112,4 +111,18 @@ public class UserController {
     public ResponseEntity<Boolean> existsByEmail(@RequestBody String userEmailDTO){
         return new ResponseEntity<>(userService.existsByEmail(userEmailDTO),HttpStatus.OK);
    }
+
+   @PostMapping("/artist")
+    public ResponseEntity<?> makeUserAnArtist(
+            @RequestBody ArtistPostDTO dto) {
+        try {
+            userService.makeUserAnArtist(dto);
+            return new ResponseEntity<>(
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
+        }
+   }
+
 }

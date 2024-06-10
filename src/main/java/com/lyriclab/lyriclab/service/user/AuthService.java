@@ -1,9 +1,9 @@
 package com.lyriclab.lyriclab.service.user;
 
-import com.lyriclab.lyriclab.model.dto.get.user.UserGetDto;
+import com.lyriclab.lyriclab.model.dto.get.user.UserResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserLoginDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserStorageDto;
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class AuthService {
     private final CookieUtil cookieUtil;
     private final UserService userService;
 
-    public UserGetDto register(UserCreationDTO dto) {
+    public UserResponseDto register(UserPostDTO dto) {
         if (userService.existsByEmailAndUsername(
                 dto.getUsername(), dto.getEmail())) {
             throw new RuntimeException("Email or username already registered");
