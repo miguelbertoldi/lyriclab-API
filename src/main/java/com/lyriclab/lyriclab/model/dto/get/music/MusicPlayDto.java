@@ -19,6 +19,7 @@ public class MusicPlayDto {
     private String title;
     private String artist;
     private String album;
+    private Genre genre;
     private File file;
     private File cover;
 

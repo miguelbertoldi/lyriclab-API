@@ -1,6 +1,8 @@
 package com.lyriclab.lyriclab.controller;
 
-import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
+import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
+import com.lyriclab.lyriclab.model.entity.Music;
+import com.lyriclab.lyriclab.model.enums.Genre;
 import com.lyriclab.lyriclab.service.MusicService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,7 +48,7 @@ public class MusicController {
 
     @PostMapping("/{albumId}")
     public ResponseEntity<?> save(
-            @RequestBody MusicCreationDTO dto,
+            @RequestBody MusicPostDTO dto,
             @PathVariable Long albumId) {
         try {
             return new ResponseEntity<>
@@ -60,13 +62,14 @@ public class MusicController {
 
     @PostMapping
     public ResponseEntity<?> save(
-            @RequestBody MusicCreationDTO dto) {
+            @RequestBody MusicPostDTO dto) {
         try {
             return new ResponseEntity<>
                     (musicService.save(dto),
                             HttpStatus.OK);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
@@ -93,6 +96,21 @@ public class MusicController {
                     (musicService.uploadFile(file, id),
                             HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/next/{currentMusicId}")
+    public ResponseEntity<?> findNextMusicHistory(
+            @PathVariable Long currentMusicId) {
+        try {
+            return new ResponseEntity<>(
+                    musicService.findNextMusicHistory(currentMusicId),
+                        HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(
                     HttpStatus.BAD_REQUEST);
         }

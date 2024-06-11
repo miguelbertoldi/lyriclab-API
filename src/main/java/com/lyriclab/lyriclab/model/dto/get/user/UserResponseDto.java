@@ -1,6 +1,6 @@
 package com.lyriclab.lyriclab.model.dto.get.user;
 
-import com.lyriclab.lyriclab.model.dto.get.PlaylistGetDto;
+import com.lyriclab.lyriclab.model.dto.get.PlaylistResponseDto;
 import com.lyriclab.lyriclab.model.entity.File;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;
@@ -14,24 +14,24 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserGetDto {
+public class UserResponseDto {
 
     private Long id;
     private String username;
     private String email;
     private String fullName;
-    private List<PlaylistGetDto> playlists;
+    private List<PlaylistResponseDto> playlists;
     private File picture;
 
-    public UserGetDto(User user) {
+    public UserResponseDto(User user) {
         BeanUtils.copyProperties(user, this);
         this.playlists = convertPlaylistsToDto(user.getPlaylists());
     }
 
-    private List<PlaylistGetDto> convertPlaylistsToDto(List<Playlist> playlists) {
+    private List<PlaylistResponseDto> convertPlaylistsToDto(List<Playlist> playlists) {
         return playlists
                 .stream()
-                .map(PlaylistGetDto::new)
+                .map(PlaylistResponseDto::new)
                 .toList();
     }
 

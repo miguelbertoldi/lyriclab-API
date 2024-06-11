@@ -1,9 +1,10 @@
 package com.lyriclab.lyriclab.model.entity;
 
-import com.lyriclab.lyriclab.model.dto.get.music.MusicGetDto;
+import com.lyriclab.lyriclab.model.dto.get.music.MusicResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.music.MusicPlayDto;
-import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
+import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
 import com.lyriclab.lyriclab.model.enums.Genre;
+import com.lyriclab.lyriclab.model.interfaces.IResponseConversor;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Music {
+public class Music implements IResponseConversor<MusicResponseDto> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,14 +43,14 @@ public class Music {
     private LocalDate releaseDate;
     private String lyrics;
 
-    public Music(MusicCreationDTO dto, Album album) {
+    public Music(MusicPostDTO dto, Album album) {
         BeanUtils.copyProperties(dto, this);
         this.album = album;
         album.addMusic(this);
     }
 
-    public MusicGetDto toDto() {
-        return new MusicGetDto(this);
+    public MusicResponseDto toDto() {
+        return new MusicResponseDto(this);
     }
 
     public MusicPlayDto toPlayDto() {

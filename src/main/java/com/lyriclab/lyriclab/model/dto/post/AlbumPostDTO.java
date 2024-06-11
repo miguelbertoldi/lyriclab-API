@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class PlaylistCreationDTO {
+@AllArgsConstructor
+public class AlbumPostDTO {
 
     @NonNull
     private String title;
-
     @NonNull
-    private String description;
+    private Long artistId;
 
 }

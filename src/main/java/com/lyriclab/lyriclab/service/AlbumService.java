@@ -1,12 +1,13 @@
 package com.lyriclab.lyriclab.service;
 
-import com.lyriclab.lyriclab.model.dto.get.AlbumGetDto;
-import com.lyriclab.lyriclab.model.dto.post.AlbumCreationDTO;
-import com.lyriclab.lyriclab.model.dto.post.MusicCreationDTO;
+import com.lyriclab.lyriclab.model.dto.get.AlbumResponseDto;
+import com.lyriclab.lyriclab.model.dto.post.AlbumPostDTO;
+import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
 import com.lyriclab.lyriclab.model.entity.Album;
-import com.lyriclab.lyriclab.model.entity.File;
-import com.lyriclab.lyriclab.model.entity.Music;
+import com.lyriclab.lyriclab.model.entity.user.Artist;
+import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.AlbumRepository;
+import com.lyriclab.lyriclab.service.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,21 +21,28 @@ public class AlbumService {
 
     private final AlbumRepository albumRepository;
     private final FileService fileService;
+    private final UserService userService;
 
-    public AlbumGetDto save(AlbumCreationDTO dto) {
+    public AlbumResponseDto save(AlbumPostDTO dto) {
         try {
-            Album album = new Album(dto);
+            User artist = userService.findArtist(dto.getArtistId());
+            Album album = new Album(dto, artist);
             saveDefaultCover(album);
             return albumRepository.save(album).toDto();
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    public Album createMusicAlbum(MusicCreationDTO dto) {
-        Album album = new Album(dto);
-        saveDefaultCover(album);
-        return album;
+    public Album createMusicAlbum(MusicPostDTO dto) {
+        try {
+            User artist = userService.findArtist(dto.getArtistId());
+            Album album = new Album(dto, artist);
+            saveDefaultCover(album);
+            return album;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void saveDefaultCover(Album album) {
@@ -54,14 +62,14 @@ public class AlbumService {
         return albumRepository.findAll();
     }
 
-    public List<AlbumGetDto> findAll() {
+    public List<AlbumResponseDto> findAll() {
         return findAllEntity()
                 .stream()
-                .map(AlbumGetDto::new)
+                .map(AlbumResponseDto::new)
                 .toList();
     }
 
-    public AlbumGetDto uploadFile(
+    public AlbumResponseDto uploadFile(
             Long id, MultipartFile multipartFile) {
         try {
             Album album = findEntityById(id);

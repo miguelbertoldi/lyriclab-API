@@ -2,6 +2,8 @@ package com.lyriclab.lyriclab.controller;
 
 import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
 import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
+import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,13 +21,24 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
-            @RequestBody UserCreationDTO dto) {
+            @RequestBody UserPostDTO dto) {
         try {
             return new ResponseEntity<>
                     (dto,
                         HttpStatus.CREATED);
 
         } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<HttpStatus> editPassword(@RequestBody String email, @RequestBody String password) {
+        try {
+            userService.editPassword(email, password);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
@@ -97,13 +110,23 @@ public class UserController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<Boolean> existsByEmail(
-            @RequestBody String email) {
-        return new ResponseEntity<>(
-                userService.existsByEmail(email),
+   @PostMapping("/email")
+    public ResponseEntity<Boolean> existsByEmail(@RequestBody String userEmailDTO){
+        return new ResponseEntity<>(userService.existsByEmail(userEmailDTO),HttpStatus.OK);
+   }
+
+   @PostMapping("/artist")
+    public ResponseEntity<?> makeUserAnArtist(
+            @RequestBody ArtistPostDTO dto) {
+        try {
+            userService.makeUserAnArtist(dto);
+            return new ResponseEntity<>(
                     HttpStatus.OK);
-    }
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
+        }
+   }
 
     @PutMapping
     public void editUser(@RequestBody UserEditDto userEditDto){

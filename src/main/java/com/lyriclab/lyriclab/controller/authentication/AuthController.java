@@ -1,6 +1,6 @@
-package com.lyriclab.lyriclab.controller.security;
+package com.lyriclab.lyriclab.controller.authentication;
 
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
+import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.service.user.AuthService;
 import com.lyriclab.lyriclab.model.dto.get.user.UserLoginDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> login(
-            @RequestBody UserCreationDTO dto
+            @RequestBody UserPostDTO dto
     ) {
         try {
             return new ResponseEntity<>
