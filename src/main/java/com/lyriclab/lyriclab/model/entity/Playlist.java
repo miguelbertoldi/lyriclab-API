@@ -43,7 +43,6 @@ public class Playlist {
     private PlaylistType type;
 
     private Boolean mandatory;
-    private Boolean isLiked;
 
     public Playlist( //default playlists -> liked musics, recently listened
             User user, String title,
