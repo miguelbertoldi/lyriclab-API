@@ -15,6 +15,16 @@ public class PlaylistController {
 
     private final PlaylistService playlistService;
 
+    @GetMapping
+    public ResponseEntity<?> getAll(){
+        try {
+            return new ResponseEntity<>(playlistService.getAll(),HttpStatus.OK);
+
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> save(
             @RequestBody PlaylistPostDTO dto) {
@@ -35,6 +45,19 @@ public class PlaylistController {
                     (playlistService.findAllByUser(),
                             HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PatchMapping("/like/{playlistId}")
+    public ResponseEntity<?> likeMusicHandler(
+            @PathVariable Long playlistId) {
+        try {
+            playlistService.likePlaylistHandler(playlistId);
+            return new ResponseEntity<>
+                    (HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
