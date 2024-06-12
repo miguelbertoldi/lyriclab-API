@@ -49,6 +49,20 @@ public class PlaylistController {
                     (HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/logged/some")
+    public ResponseEntity<?> findSomeUserPlaylists() {
+        try {
+            return new ResponseEntity<>
+                    (playlistService.findSomeUserPlaylists(),
+                            HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PatchMapping("/like/{playlistId}")
     public ResponseEntity<?> likeMusicHandler(
             @PathVariable Long playlistId) {

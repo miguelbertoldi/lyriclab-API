@@ -113,10 +113,9 @@ public class UserController {
    }
 
    @PostMapping("/artist")
-    public ResponseEntity<?> makeUserAnArtist(
-            @RequestBody ArtistPostDTO dto) {
+    public ResponseEntity<?> makeUserAnArtist() {
         try {
-            userService.makeUserAnArtist(dto);
+            userService.makeUserAnArtist();
             return new ResponseEntity<>(
                     HttpStatus.OK);
         } catch (Exception e) {

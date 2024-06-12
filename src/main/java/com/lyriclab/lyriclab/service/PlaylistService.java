@@ -66,6 +66,17 @@ public class PlaylistService {
         playlistRepository.deleteById(id);
     }
 
+    public List<PlaylistResponseDto> findSomeUserPlaylists() {
+        List<PlaylistResponseDto> playlists = authUtil.
+                getAuthenticatedUser().
+                    toDto().getPlaylists();
+        return playlists
+                .stream()
+                .filter(p -> playlists.indexOf(p) > 1)
+                .limit(4)
+                .toList();
+    }
+
     public void save(Playlist playlist) {
         playlistRepository.save(playlist);
     }

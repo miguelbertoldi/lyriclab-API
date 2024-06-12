@@ -5,10 +5,8 @@ import com.lyriclab.lyriclab.model.dto.get.user.UserResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
 import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
-import com.lyriclab.lyriclab.model.entity.user.Artist;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.model.enums.UserKind;
-import com.lyriclab.lyriclab.repository.ArtistRepository;
 import com.lyriclab.lyriclab.repository.UserRepository;
 import com.lyriclab.lyriclab.service.FileService;
 import com.lyriclab.lyriclab.util.AuthUserUtil;
@@ -24,7 +22,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ArtistRepository artistRepository;
     private final FileService fileService;
 
     private final AuthUserUtil authUtil;
@@ -108,10 +105,10 @@ public class UserService {
         return authUtil.getAuthenticatedUser().toDto();
     }
 
-    public void makeUserAnArtist(ArtistPostDTO dto) {
-        // authUtil.getAuthenticatedUser().setUserKind(UserKind.ARTIST);
-        // userRepository.save(authUtil.getAuthenticatedUser());
-        artistRepository.save(new Artist(authUtil.getAuthenticatedUser(), dto));
+    public void makeUserAnArtist() {
+        User user = authUtil.getAuthenticatedUser();
+        user.setUserKind(UserKind.ARTIST);
+        save(user);
     }
 
     public User findArtist(Long id) {

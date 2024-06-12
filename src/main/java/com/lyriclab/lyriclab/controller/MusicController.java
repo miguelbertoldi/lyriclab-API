@@ -116,4 +116,30 @@ public class MusicController {
         }
     }
 
+    @GetMapping("/sys/recent")
+    public ResponseEntity<?> findSystemMostRecent() {
+        try {
+            return new ResponseEntity<>(
+                    musicService.findSystemMostRecent(),
+                        HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll() {
+        try {
+            return new ResponseEntity<>(
+                    musicService.findAll(),
+                        HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

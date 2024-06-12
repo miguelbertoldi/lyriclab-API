@@ -3,6 +3,7 @@ package com.lyriclab.lyriclab.model.entity;
 import com.lyriclab.lyriclab.model.dto.get.music.MusicResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.music.MusicPlayDto;
 import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
+import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.model.enums.Genre;
 import com.lyriclab.lyriclab.model.interfaces.IResponseConversor;
 import jakarta.persistence.*;
@@ -24,9 +25,6 @@ public class Music implements IResponseConversor<MusicResponseDto> {
     @EqualsAndHashCode.Include
     private Long id;
     private String title;
-
-    @Column(length = 80)
-    private String artist;
 
     @ManyToOne(cascade =
             { CascadeType.PERSIST, CascadeType.MERGE })

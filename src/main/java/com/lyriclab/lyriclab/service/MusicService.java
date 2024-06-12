@@ -9,12 +9,14 @@ import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.model.enums.Genre;
 import com.lyriclab.lyriclab.repository.MusicRepository;
+import com.lyriclab.lyriclab.service.user.UserService;
 import com.lyriclab.lyriclab.util.AuthUserUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,12 +27,14 @@ public class MusicService {
     private final AlbumService albumService;
     private final PlaylistService playlistService;
     private final FileService fileService;
+    private final UserService userService;
 
     private final AuthUserUtil authUtil;
 
     public MusicResponseDto save(MusicPostDTO dto, Long albumId) {
         try {
             Album album = albumService.findEntityById(albumId);
+            User artist = userService.findArtist(dto.getArtistId());
             Music music = new Music(dto, album);
             return musicRepository
                     .save(music).toDto();
@@ -58,6 +62,14 @@ public class MusicService {
         User user = authUtil.getAuthenticatedUser();
         return user.getPlaylists().get(1)
                 .toDto().getMusics();
+    }
+
+    public List<MusicResponseDto> findSystemMostRecent() {
+        List<Music> musics = musicRepository.findAll();
+        Collections.reverse(musicRepository.findAll());
+        return musics.stream()
+                .map(MusicResponseDto::new)
+                .limit(25).toList();
     }
 
 
@@ -117,5 +129,11 @@ public class MusicService {
         return musicRepository.
                 findRandomByGenre(currentMusicGenre, currentMusicId)
                 .toPlayDto();
+    }
+
+    public List<MusicResponseDto> findAll() {
+        return musicRepository.findAll()
+                .stream().map(MusicResponseDto::new)
+                .toList();
     }
 }

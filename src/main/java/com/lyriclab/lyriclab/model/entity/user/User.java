@@ -3,6 +3,7 @@
     import com.lyriclab.lyriclab.model.dto.get.user.UserResponseDto;
     import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
     import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
+    import com.lyriclab.lyriclab.model.entity.Album;
     import com.lyriclab.lyriclab.model.entity.File;
     import com.lyriclab.lyriclab.model.entity.Playlist;
     import com.lyriclab.lyriclab.model.enums.PlaylistType;
@@ -55,6 +56,12 @@
                 fetch = FetchType.EAGER)
         @ToString.Exclude
         private List<Playlist> playlists;
+
+        @OneToMany(mappedBy = "artist",
+                cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+                fetch = FetchType.EAGER)
+        @ToString.Exclude
+        private List<Album> albums;
 
         @OneToOne(cascade = CascadeType.ALL)
         @ToString.Exclude

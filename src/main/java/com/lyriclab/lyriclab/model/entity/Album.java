@@ -3,7 +3,6 @@ package com.lyriclab.lyriclab.model.entity;
 import com.lyriclab.lyriclab.model.dto.get.AlbumResponseDto;
 import com.lyriclab.lyriclab.model.dto.post.AlbumPostDTO;
 import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
-import com.lyriclab.lyriclab.model.entity.user.Artist;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.model.interfaces.IResponseConversor;
 import jakarta.persistence.*;

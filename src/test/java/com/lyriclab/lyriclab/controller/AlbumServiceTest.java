@@ -1,4 +1,4 @@
-package com.lyriclab.lyriclab.service;
+package com.lyriclab.lyriclab.controller;
 
 import org.junit.jupiter.api.Test;
 

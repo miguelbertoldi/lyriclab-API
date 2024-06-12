@@ -20,6 +20,7 @@ public class PlaylistResponseDto {
     private Long id;
     private String title;
     private String description;
+    private String owner;
     private List<MusicResponseDto> musics;
     private Boolean mandatory;
     private PlaylistType type;
@@ -27,6 +28,7 @@ public class PlaylistResponseDto {
 
     public PlaylistResponseDto(Playlist playlist) {
         BeanUtils.copyProperties(playlist, this);
+        this.owner = playlist.getOwner().getFullName();
         this.musics = convertMusicsToDto(playlist.getMusics());
     }
 
