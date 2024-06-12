@@ -31,6 +31,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET,"/user/logged/complete").permitAll()
                 .requestMatchers(HttpMethod.GET, "/music").permitAll()
                 .requestMatchers(HttpMethod.GET, "/playlist").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/user").permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/email").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/user/password").permitAll()
                 .anyRequest().authenticated();

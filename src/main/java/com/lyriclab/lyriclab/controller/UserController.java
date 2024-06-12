@@ -1,5 +1,7 @@
 package com.lyriclab.lyriclab.controller;
 
+import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
+import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.service.user.UserService;
@@ -66,6 +68,7 @@ public class UserController {
                     (userService.uploadFile(id, file),
                             HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
@@ -123,5 +126,10 @@ public class UserController {
                     HttpStatus.BAD_REQUEST);
         }
    }
+
+    @PutMapping
+    public void editUser(@RequestBody UserEditDto userEditDto){
+        userService.editUser(userEditDto);
+    }
 
 }
