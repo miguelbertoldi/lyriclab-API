@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.controller;
 
+import com.lyriclab.lyriclab.model.dto.get.PlaylistResponseDto;
 import com.lyriclab.lyriclab.model.dto.post.PlaylistPostDTO;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.service.PlaylistService;
@@ -42,7 +43,7 @@ public class PlaylistController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Playlist>> findByContainingPlaylistTitle(@RequestParam String title){
+    public ResponseEntity<List<PlaylistResponseDto>> findByContainingPlaylistTitle(@RequestParam String title){
         try {
             return new ResponseEntity<>
                     (playlistService.findByContainingTitlePlaylist(title),

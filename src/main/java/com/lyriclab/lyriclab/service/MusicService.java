@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.service;
 
+import com.lyriclab.lyriclab.model.dto.get.PlaylistResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.music.MusicResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.music.MusicPlayDto;
 import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
@@ -39,10 +40,12 @@ public class MusicService {
         }
     }
 
-    public List<Music> findByContaining(String title){
+    public List<MusicResponseDto> findByContaining(String title){
         System.out.println(title);
         System.out.println(musicRepository.findMusicByTitleContaining(title));
-        return musicRepository.findMusicByTitleContaining(title);
+        List<Music> musics = musicRepository.findMusicByTitleContaining(title);;
+        return musics.stream().map(MusicResponseDto::new).toList();
+
     }
 
     public MusicResponseDto save(MusicPostDTO dto) {

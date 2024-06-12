@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.controller;
 
+import com.lyriclab.lyriclab.model.dto.get.music.MusicResponseDto;
 import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
 import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.enums.Genre;
@@ -35,7 +36,7 @@ public class MusicController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Music>> findByContainingTitle(@RequestParam String title){
+    public ResponseEntity<List<MusicResponseDto>> findByContainingTitle(@RequestParam String title){
         try {
             return new ResponseEntity<>
                     (musicService.findByContaining(title),

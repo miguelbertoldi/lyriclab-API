@@ -10,6 +10,7 @@ import com.lyriclab.lyriclab.service.user.UserService;
 import com.lyriclab.lyriclab.util.AuthUserUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +35,9 @@ public class PlaylistService {
         }
     }
 
-    public List<Playlist> findByContainingTitlePlaylist(String title){
-        return playlistRepository.findPlaylistByTitleContaining(title);
+    public List<PlaylistResponseDto> findByContainingTitlePlaylist(String title){
+         List<Playlist> playlists = playlistRepository.findPlaylistByTitleContaining(title);
+         return playlists.stream().map(PlaylistResponseDto::new).toList();
     }
 
     public List<Playlist> getAll(){
