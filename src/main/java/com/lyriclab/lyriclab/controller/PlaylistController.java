@@ -1,11 +1,14 @@
 package com.lyriclab.lyriclab.controller;
 
 import com.lyriclab.lyriclab.model.dto.post.PlaylistPostDTO;
+import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.service.PlaylistService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/playlist")
@@ -32,6 +35,19 @@ public class PlaylistController {
             return new ResponseEntity<>
                     (playlistService.save(dto),
                             HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Playlist>> findByContainingPlaylistTitle(@RequestParam String title){
+        try {
+            return new ResponseEntity<>
+                    (playlistService.findByContainingTitlePlaylist(title),
+                            HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);

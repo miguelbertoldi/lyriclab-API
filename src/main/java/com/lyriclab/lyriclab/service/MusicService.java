@@ -39,6 +39,12 @@ public class MusicService {
         }
     }
 
+    public List<Music> findByContaining(String title){
+        System.out.println(title);
+        System.out.println(musicRepository.findMusicByTitleContaining(title));
+        return musicRepository.findMusicByTitleContaining(title);
+    }
+
     public MusicResponseDto save(MusicPostDTO dto) {
         try {
             Album album = albumService.createMusicAlbum(dto);

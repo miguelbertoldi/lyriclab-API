@@ -1,7 +1,6 @@
 package com.lyriclab.lyriclab.controller;
 
 import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.service.user.UserService;
@@ -116,10 +115,9 @@ public class UserController {
    }
 
    @PostMapping("/artist")
-    public ResponseEntity<?> makeUserAnArtist(
-            @RequestBody ArtistPostDTO dto) {
+    public ResponseEntity<?> makeUserAnArtist() {
         try {
-            userService.makeUserAnArtist(dto);
+            userService.makeUserAnArtist();
             return new ResponseEntity<>(
                     HttpStatus.OK);
         } catch (Exception e) {

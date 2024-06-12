@@ -33,6 +33,11 @@ public class PlaylistService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public List<Playlist> findByContainingTitlePlaylist(String title){
+        return playlistRepository.findPlaylistByTitleContaining(title);
+    }
+
     public List<Playlist> getAll(){
         return playlistRepository.findAll();
     }

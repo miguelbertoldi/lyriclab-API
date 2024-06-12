@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/music")
 @AllArgsConstructor
@@ -27,6 +29,19 @@ public class MusicController {
                             HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Music>> findByContainingTitle(@RequestParam String title){
+        try {
+            return new ResponseEntity<>
+                    (musicService.findByContaining(title),
+                            HttpStatus.OK);
+
+        } catch (Exception e) {
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
