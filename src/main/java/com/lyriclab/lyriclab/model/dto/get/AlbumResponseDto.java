@@ -4,6 +4,7 @@ import com.lyriclab.lyriclab.model.dto.get.music.MusicResponseDto;
 import com.lyriclab.lyriclab.model.entity.Album;
 import com.lyriclab.lyriclab.model.entity.File;
 import com.lyriclab.lyriclab.model.entity.Music;
+import com.lyriclab.lyriclab.model.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class AlbumResponseDto {
     public AlbumResponseDto(Album album) {
         BeanUtils.copyProperties(album, this);
         this.musics = convertMusicsToDto(album.getMusics());
+        this.artist = album.getArtist().getFullName();
     }
 
     private List<MusicResponseDto> convertMusicsToDto(List<Music> musics) {

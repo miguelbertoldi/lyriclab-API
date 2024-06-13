@@ -51,8 +51,8 @@ public class Music implements IResponseConversor<MusicResponseDto> {
         return new MusicResponseDto(this);
     }
 
-    public MusicPlayDto toPlayDto() {
-        return new MusicPlayDto(this);
+    public MusicPlayDto toPlayDto(Boolean liked) {
+        return new MusicPlayDto(this, liked);
     }
 
 }

@@ -34,6 +34,7 @@ public class AlbumController {
                         HttpStatus.OK);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
@@ -54,15 +55,14 @@ public class AlbumController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> uploadFile(
-            @PathVariable Long id
-    ) {
+    @GetMapping("/logged")
+    public ResponseEntity<?> findAllFromUser() {
         try {
-            albumService.delete(id);
             return new ResponseEntity<>
-                    (HttpStatus.OK);
+                    (albumService.findAllFromUser(),
+                            HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }

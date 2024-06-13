@@ -22,10 +22,14 @@ public class MusicPlayDto {
     private Genre genre;
     private File file;
     private File cover;
+    private Boolean liked;
 
-    public MusicPlayDto(Music music) {
+    public MusicPlayDto(Music music, Boolean isLiked) {
         BeanUtils.copyProperties(music, this);
         this.cover = music.getAlbum().getCover();
+        this.artist = music.getAlbum().getArtist().getFullName();
+        this.album = music.getAlbum().getTitle();
+        this.liked = isLiked;
     }
 
 }

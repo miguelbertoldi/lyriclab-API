@@ -7,6 +7,7 @@ import com.lyriclab.lyriclab.model.entity.Album;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.repository.AlbumRepository;
 import com.lyriclab.lyriclab.service.user.UserService;
+import com.lyriclab.lyriclab.util.AuthUserUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,15 @@ public class AlbumService {
     private final FileService fileService;
     private final UserService userService;
 
+    private final AuthUserUtil authUtil;
+
     public AlbumResponseDto save(AlbumPostDTO dto) {
         try {
             User artist = userService.findArtist(dto.getArtistId());
             Album album = new Album(dto, artist);
+            artist.addAlbum(album);
             saveDefaultCover(album);
+            userService.save(artist);
             return albumRepository.save(album).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -37,7 +42,9 @@ public class AlbumService {
         try {
             User artist = userService.findArtist(dto.getArtistId());
             Album album = new Album(dto, artist);
+            artist.addAlbum(album);
             saveDefaultCover(album);
+            userService.save(artist);
             return album;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -87,4 +94,9 @@ public class AlbumService {
         }
         albumRepository.deleteById(id);
     }
+
+    public List<AlbumResponseDto> findAllFromUser() {
+        return authUtil.getAuthenticatedUser().toArtist().getAlbums();
+    }
+
 }

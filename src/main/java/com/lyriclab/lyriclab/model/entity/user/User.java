@@ -1,5 +1,6 @@
     package com.lyriclab.lyriclab.model.entity.user;
 
+    import com.lyriclab.lyriclab.model.dto.get.user.ArtistResponseDTO;
     import com.lyriclab.lyriclab.model.dto.get.user.UserResponseDto;
     import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
     import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
@@ -16,6 +17,7 @@
     import org.springframework.security.crypto.password.PasswordEncoder;
 
     import java.util.List;
+    import java.util.Objects;
 
     @Entity
     @Table(name = "tb_user")
@@ -111,4 +113,15 @@
             this.password = encoder.encode(password);
         }
 
+        public void addAlbum(Album album) {
+            if (Objects.isNull(albums)) {
+                albums = List.of(album);
+            } else {
+                albums.add(album);
+            }
+        }
+
+        public ArtistResponseDTO toArtist() {
+            return new ArtistResponseDTO(this);
+        }
     }

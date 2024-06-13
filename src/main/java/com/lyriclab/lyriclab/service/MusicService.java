@@ -75,21 +75,22 @@ public class MusicService {
 
     public MusicPlayDto playMusic(Long musicId) {
         User user = authUtil.getAuthenticatedUser();
-
         Music music = findById(musicId);
+        Boolean isLiked = user.getPlaylists().get(0).getMusics().contains(music);
+
         Playlist playlist = user.getPlaylists().get(1); // recently played playlist
+
+        if (playlist.getMusics().size() > 11) {
+            playlist.getMusics().remove(0);
+        }
 
         playlist.getMusics().remove(music);
         playlistService.save(playlist);
 
         playlist.getMusics().add(music);
 
-        if (playlist.getMusics().size() > 12) {
-            playlist.getMusics().remove(12);
-        }
-
         playlistService.save(playlist);
-        return music.toPlayDto();
+        return music.toPlayDto(isLiked);
     }
 
     public void likeMusicHandler(Long musicId) {
@@ -126,9 +127,10 @@ public class MusicService {
 
     public MusicPlayDto findNextMusicHistory(Long currentMusicId) {
         Genre currentMusicGenre = findById(currentMusicId).getGenre();
-        return musicRepository.
-                findRandomByGenre(currentMusicGenre, currentMusicId)
-                .toPlayDto();
+        User user = authUtil.getAuthenticatedUser();
+        Music music = musicRepository.findRandomByGenre(currentMusicGenre, currentMusicId);
+        Boolean isLiked = user.getPlaylists().get(0).getMusics().contains(music);
+        return music.toPlayDto(isLiked);
     }
 
     public List<MusicResponseDto> findAll() {

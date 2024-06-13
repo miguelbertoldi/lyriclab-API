@@ -1,7 +1,6 @@
 package com.lyriclab.lyriclab.controller;
 
 import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
-import com.lyriclab.lyriclab.model.dto.post.UserCreationDTO;
 import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.service.user.UserService;

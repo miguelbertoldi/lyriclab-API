@@ -33,6 +33,7 @@ public class Album implements IResponseConversor<AlbumResponseDto> {
 
     @OneToMany(mappedBy = "album",
                 cascade = CascadeType.ALL,
+                fetch = FetchType.EAGER,
                 orphanRemoval = true)
     private List<Music> musics;
 

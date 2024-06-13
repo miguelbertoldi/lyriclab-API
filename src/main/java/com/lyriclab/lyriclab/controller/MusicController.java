@@ -89,13 +89,14 @@ public class MusicController {
 
     @PostMapping("/{id}/file")
     public ResponseEntity<?> uploadMusicFile(
-            @RequestParam MultipartFile file,
+            @RequestBody MultipartFile file,
             @PathVariable Long id) {
         try {
             return new ResponseEntity<>
                     (musicService.uploadFile(file, id),
                             HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(
                     HttpStatus.BAD_REQUEST);
         }

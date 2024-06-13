@@ -33,6 +33,7 @@ public class PlaylistController {
                     (playlistService.save(dto),
                             HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }
