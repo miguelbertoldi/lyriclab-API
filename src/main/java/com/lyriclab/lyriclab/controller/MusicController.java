@@ -143,4 +143,17 @@ public class MusicController {
         }
     }
 
+    @GetMapping("/some/playlist")
+    public ResponseEntity<?> findSomeToPlaylist() {
+        try {
+            return new ResponseEntity<>(
+                    musicService.findSomeToAddPlaylist(),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

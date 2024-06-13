@@ -138,4 +138,11 @@ public class MusicService {
                 .stream().map(MusicResponseDto::new)
                 .toList();
     }
+
+    public List<MusicResponseDto> findSomeToAddPlaylist() {
+        return authUtil.getAuthenticatedUser()
+                .toDto().getPlaylists()
+                .stream().flatMap(p -> p.getMusics().stream())
+                .toList();
+    }
 }
