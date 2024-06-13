@@ -1,6 +1,8 @@
 package com.lyriclab.lyriclab.controller;
 
 import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
+import com.lyriclab.lyriclab.model.dto.get.user.UserEmailDTO;
+import com.lyriclab.lyriclab.model.dto.get.user.UserPasswordDTO;
 import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.service.user.UserService;
@@ -9,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/user")
@@ -33,9 +37,9 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public ResponseEntity<HttpStatus> editPassword(@RequestBody String email, @RequestBody String password) {
+    public ResponseEntity<HttpStatus> editPassword(@RequestBody UserPasswordDTO userPasswordDTO) {
         try {
-            userService.editPassword(email, password);
+            userService.editPassword(userPasswordDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>
@@ -109,8 +113,8 @@ public class UserController {
         }
     }
 
-   @PostMapping("/email")
-    public ResponseEntity<Boolean> existsByEmail(@RequestBody String userEmailDTO){
+   @PostMapping(value="/email", consumes = "application/json")
+    public ResponseEntity<Boolean> existsByEmail(@RequestBody UserEmailDTO userEmailDTO){
         return new ResponseEntity<>(userService.existsByEmail(userEmailDTO),HttpStatus.OK);
    }
 
