@@ -13,7 +13,6 @@ public class MusicPostDTO {
 
     @NonNull
     private String title;
-    @NonNull
     private Long artistId;
     @NonNull
     private Genre genre;

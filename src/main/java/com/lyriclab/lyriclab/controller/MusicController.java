@@ -1,5 +1,6 @@
 package com.lyriclab.lyriclab.controller;
 
+import com.lyriclab.lyriclab.model.dto.get.music.MusicResponseDto;
 import com.lyriclab.lyriclab.model.dto.post.MusicPostDTO;
 import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.enums.Genre;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/music")
@@ -27,6 +30,19 @@ public class MusicController {
                             HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>
+                    (HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<MusicResponseDto>> findByContainingTitle(@RequestParam String title){
+        try {
+            return new ResponseEntity<>
+                    (musicService.findByContaining(title),
+                            HttpStatus.OK);
+
+        } catch (Exception e) {
             return new ResponseEntity<>
                     (HttpStatus.BAD_REQUEST);
         }

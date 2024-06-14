@@ -1,12 +1,15 @@
 package com.lyriclab.lyriclab.service.user;
 
+import com.lyriclab.lyriclab.model.dto.get.user.*;
+
+import com.lyriclab.lyriclab.model.entity.File;
 import com.lyriclab.lyriclab.model.dto.get.PlaylistResponseDto;
-import com.lyriclab.lyriclab.model.dto.get.user.UserEditDto;
-import com.lyriclab.lyriclab.model.dto.get.user.UserResponseDto;
 import com.lyriclab.lyriclab.model.dto.get.user.UserBasicInfoDto;
+import com.lyriclab.lyriclab.model.dto.post.ArtistPostDTO;
 import com.lyriclab.lyriclab.model.dto.post.UserPostDTO;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.model.enums.UserKind;
+import com.lyriclab.lyriclab.model.interfaces.IUserResponse;
 import com.lyriclab.lyriclab.repository.UserRepository;
 import com.lyriclab.lyriclab.service.FileService;
 import com.lyriclab.lyriclab.util.AuthUserUtil;
@@ -15,6 +18,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Optional;
 
 @Service
@@ -80,14 +85,14 @@ public class UserService {
                 || userRepository.existsByUsername(username);
     }
 
-    public Boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+    public Boolean existsByEmail(UserEmailDTO userEmailDTO) {
+            return userRepository.existsByEmail(userEmailDTO.getEmail());
+
     }
 
-    public void editPassword(String email, String password){
-        User user = userRepository.findByEmail(email).get();
-        user.setPassword(password);
-
+    public void editPassword(UserPasswordDTO userPasswordDTO){
+        User user = userRepository.findByEmail(userPasswordDTO.getEmail()).get();
+        user.setPassword(userPasswordDTO.getPassword());
         userRepository.save(user);
     }
 
@@ -101,8 +106,15 @@ public class UserService {
         return authUtil.getAuthenticatedUser().getBasicInfo();
     }
 
-    public UserResponseDto findLoggedUserComplete() {
-        return authUtil.getAuthenticatedUser().toDto();
+    public IUserResponse findLoggedUserComplete() {
+
+        User user = authUtil.getAuthenticatedUser();
+
+        if (user.getUserKind() == UserKind.ARTIST) {
+            return new ArtistResponseDTO(user);
+        }
+
+        return user.toDto();
     }
 
     public void makeUserAnArtist() {

@@ -10,6 +10,7 @@
     import com.lyriclab.lyriclab.model.enums.PlaylistType;
     import com.lyriclab.lyriclab.model.enums.UserKind;
     import com.lyriclab.lyriclab.model.interfaces.IResponseConversor;
+    import com.lyriclab.lyriclab.model.interfaces.IUserResponse;
     import jakarta.persistence.*;
     import lombok.*;
     import org.springframework.beans.BeanUtils;

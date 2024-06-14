@@ -5,6 +5,7 @@ import com.lyriclab.lyriclab.model.entity.File;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;
 import com.lyriclab.lyriclab.model.enums.UserKind;
+import com.lyriclab.lyriclab.model.interfaces.IUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDto {
+public class UserResponseDto implements IUserResponse {
 
     private Long id;
     private String username;

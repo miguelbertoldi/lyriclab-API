@@ -21,6 +21,6 @@ public interface MusicRepository
     Music findRandomByGenre(@Param("genre") Genre genre, // find a random music by this genre
                             @Param("currentId") Long currentId);
 
-    List<Music> findAllByTitleContaining(String query);
+    List<Music> findMusicByTitleContaining(String title);
 
 }

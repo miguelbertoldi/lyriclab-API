@@ -12,4 +12,5 @@ public interface PlaylistRepository
 
     List<Playlist> findAllByOwner_Id(Long id);
 
+    List<Playlist> findPlaylistByTitleContaining(String title);
 }
