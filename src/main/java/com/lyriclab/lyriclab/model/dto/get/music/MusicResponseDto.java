@@ -28,6 +28,7 @@ public class MusicResponseDto {
     private File cover;
 
     public MusicResponseDto(Music music) {
+        System.out.println(music.getAlbum());
         BeanUtils.copyProperties(music, this);
         this.album = music.getAlbum().getTitle();
         this.cover = music.getAlbum().getCover();
