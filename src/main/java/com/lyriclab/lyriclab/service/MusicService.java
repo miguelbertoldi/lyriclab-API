@@ -34,7 +34,6 @@ public class MusicService {
     public MusicResponseDto save(MusicPostDTO dto, Long albumId) {
         try {
             Album album = albumService.findEntityById(albumId);
-            User artist = userService.findArtist(dto.getArtistId());
             Music music = new Music(dto, album);
             return musicRepository
                     .save(music).toDto();
@@ -143,6 +142,7 @@ public class MusicService {
         return authUtil.getAuthenticatedUser()
                 .toDto().getPlaylists()
                 .stream().flatMap(p -> p.getMusics().stream())
+                .distinct()
                 .toList();
     }
 }

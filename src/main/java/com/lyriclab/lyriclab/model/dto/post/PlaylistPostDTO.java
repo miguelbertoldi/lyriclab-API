@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +17,7 @@ public class PlaylistPostDTO {
 
     @NonNull
     private String description;
+
+    private List<Long> musicIds;
 
 }

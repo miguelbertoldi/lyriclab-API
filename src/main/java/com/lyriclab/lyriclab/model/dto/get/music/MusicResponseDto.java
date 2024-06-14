@@ -5,6 +5,7 @@ import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.enums.Genre;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
@@ -13,8 +14,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class MusicResponseDto {
 
+    @EqualsAndHashCode.Include
     private Long id;
     private String title;
     private String artist;

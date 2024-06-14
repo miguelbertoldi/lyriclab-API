@@ -12,7 +12,5 @@ public class AlbumPostDTO {
 
     @NonNull
     private String title;
-    @NonNull
-    private Long artistId;
 
 }

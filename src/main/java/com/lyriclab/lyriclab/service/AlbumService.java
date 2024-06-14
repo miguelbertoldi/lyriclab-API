@@ -27,7 +27,7 @@ public class AlbumService {
 
     public AlbumResponseDto save(AlbumPostDTO dto) {
         try {
-            User artist = userService.findArtist(dto.getArtistId());
+            User artist = authUtil.getAuthenticatedUser();
             Album album = new Album(dto, artist);
             artist.addAlbum(album);
             saveDefaultCover(album);

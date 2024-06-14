@@ -5,6 +5,7 @@ import com.lyriclab.lyriclab.model.dto.post.PlaylistPostDTO;
 import com.lyriclab.lyriclab.model.entity.Music;
 import com.lyriclab.lyriclab.model.entity.Playlist;
 import com.lyriclab.lyriclab.model.entity.user.User;
+import com.lyriclab.lyriclab.repository.MusicRepository;
 import com.lyriclab.lyriclab.repository.PlaylistRepository;
 import com.lyriclab.lyriclab.service.user.UserService;
 import com.lyriclab.lyriclab.util.AuthUserUtil;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -21,18 +23,33 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final UserService userService;
 
+    private final MusicRepository musicRepository;
+
     private final AuthUserUtil authUtil;
 
     public PlaylistResponseDto save(PlaylistPostDTO dto) {
         try {
             User user = authUtil.getAuthenticatedUser();
             Playlist playlist = new Playlist(dto, user);
+            if (!Objects.isNull(dto.getMusicIds())) {
+                setMusics(playlist, dto.getMusicIds());
+            }
             return playlistRepository
                     .save(playlist).toDto();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
+    private void setMusics(Playlist playlist, List<Long> ids) {
+        playlist.setMusics(
+                ids.stream()
+                .map(id -> musicRepository.findById(id).get())
+                        .toList()
+        );
+    }
+
     public List<Playlist> getAll(){
         return playlistRepository.findAll();
     }
@@ -80,4 +97,5 @@ public class PlaylistService {
     public void save(Playlist playlist) {
         playlistRepository.save(playlist);
     }
+
 }

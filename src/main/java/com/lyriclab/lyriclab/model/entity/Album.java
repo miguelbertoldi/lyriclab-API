@@ -27,8 +27,7 @@ public class Album implements IResponseConversor<AlbumResponseDto> {
 
     private String title;
 
-    @ManyToOne(cascade =
-            { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne
     private User artist;
 
     @OneToMany(mappedBy = "album",
